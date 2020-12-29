@@ -1,3 +1,38 @@
 \section{Problemstellung}
 
-Dies und das...
+\subsection{Datenbeschreibung}
+
+Die vorliegenden Daten wurden im Zuge mehrerer Testfahrten durch das deutsche LTE-Netz der Netzbetreiber O2,
+T-Mobile und Vodafone im Raum Dortmund erhoben~\cite{IEEE}.
+Die Testfahrten verliefen \"uber vier zuvor festgelegte Routen, welche sich hinsichtlich der Art ihrer Umgebung unterscheiden:
+\begin{itemize}
+    \item \textit{campus}: Direkte Umgebung der TU Dortmund, Routenl\"ange 3km.
+    \item \textit{urban}: Stadtbereich, Routenl\"ange: 3km.
+    \item \textit{suburban}: Vorstadtbereich, Routenl\"ange: 9km.
+    \item \textit{highway}: Autobahn, Routenl\"ange: 14km.
+\end{itemize}
+Jede dieser Messfahrten wurde zehn Mal wiederholt.
+Hierbei wurden sowohl passive Messungen der Netzqualit\"at mithilfe verschiedener Indikatoren, als auch aktive
+Messungen der Up- und Downloadraten durchgef\"uhrt.
+Die Messungen der Daten\"ubertragungsraten wurden alle 10s vollzogen, die Messungen der passiven Indikatoren alle 1s.
+Um die Daten\"ubertragungsraten erfassen zu k\"onnen,
+wurden Datenpakete zuf\"alliger Gr\"o{\ss}e von 0.1, 0.5, 1, ..., 10 MB an einen Server zur Messung \"ubertragen.
+Die insgesamt erhobenen Variablen seien in der folgenden Auflistung kurz beschrieben:
+\begin{itemize}
+    \item \textbf{RSRP:}
+    \item \textbf{RSRQ:}
+    \item \textbf{SINR:}
+    \item \textbf{CQI:}
+    \item \textbf{TA:}
+    \item \textbf{f:}
+    \item \textbf{Velocity:}
+    \item \textbf{Cell ID:}
+    \item \textbf{Payload Size:}
+    \item \textbf{Data Rate:}
+\end{itemize}
+
+\subsection{Zielsetzungen}
+
+\subsubsection{Task I - Vorhersage der Daten\"ubertragungsraten}
+
+\subsubsection{Task II - Vorhersage der eNodeB-Verbindungsdauern}
