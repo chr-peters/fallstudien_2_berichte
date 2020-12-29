@@ -19,16 +19,23 @@ Um die Da\-ten\-\"uber\-tra\-gungs\-ra\-ten erfassen zu k\"onnen,
 wurden Datenpakete zuf\"alliger Gr\"o{\ss}e von \mbox{0.1, 0.5, 1, ..., 10 MB} an einen Server zur Messung \"ubertragen.
 Die insgesamt erhobenen Variablen seien in der folgenden Auflistung kurz beschrieben:
 \begin{itemize}
-    \item \textbf{RSRP:}
-    \item \textbf{RSRQ:}
-    \item \textbf{SINR:}
-    \item \textbf{CQI:}
-    \item \textbf{TA:}
-    \item \textbf{f:}
-    \item \textbf{Velocity:}
-    \item \textbf{Cell ID:}
-    \item \textbf{Payload Size:}
-    \item \textbf{Data Rate:}
+    \item \textbf{RSRP:} \textit{Reference Signal Received Power} gibt die Empfangsst\"arke eines Referenzsignals an. Je h\"oher der Wert,
+        desto besser ist der Empfang.
+    \item \textbf{RSRQ:} \textit{Reference Signal Received Quality} ist ein weiterer Indikator f\"ur die Verbindungsqualit\"at.
+        Er wird unter anderem aus dem RSRP berechnet und kann vom Funkmast verwendet werden, 
+        um die Notwendigkeit eines Funkmastwechsels absch\"atzen zu k\"onnen.
+    \item \textbf{SINR:} \textit{Signal-to-interference-plus-noise Ratio} gibt das Verh\"altnis des tats\"achlichen Signals zum Rauschen
+        oder anderen St\"oreinfl\"ussen an.
+    \item \textbf{CQI:} \textit{Channel Quality Indicator} ist ein Indikator, welcher Aufschluss \"uber die
+        Qualit\"at des \"Ubertragungskanals gibt.
+    \item \textbf{TA:} \textit{Timing Advance} gibt den Zeitversatz an, der zur Synchronisation zwischen Up- und Downlink
+        verwendet wird. Damit gibt er indirekt Aufschluss \"uber die Entfernung zum Funkmast.
+    \item \textbf{f:} Gibt die \textit{Frequenz} des LTE-Signals an.
+    \item \textbf{Velocity:} Die Geschwindigkeit, mit der sich das Messger\"at fortbewegt.
+    \item \textbf{Cell ID:} Identifiziert eine Zelle im LTE-Netzwerk. Nicht zu verwechseln mit der eNodeB-ID, welche einen Funkmast
+        identifiziert. Ein Funkmast kann mehrere Zellen haben.
+    \item \textbf{Payload Size:} Die Gr\"o{\ss}e des \"ubertragenen Datenpakets zur Ermittlung der Daten\"ubertragungsrate.
+    \item \textbf{Data Rate:} Die gemessene Daten\"ubertragungsrate. Es werden sowohl Upload- als auch Downloadraten gemessen.
 \end{itemize}
 
 \subsection{Zielsetzungen}
@@ -41,7 +48,17 @@ realit\"atsnahe Simulationen von Netzwerken erzeugt werden sollen.
 Ein Aspekt dieser Modelle besteht darin, dass Up- und Down\-load\-ra\-ten abh\"angig von den \"ubrigen Netzwerkindikatoren 
 m\"oglichst realistisch modelliert werden m\"ussen.
 Hierzu werden Pr\"adiktionsmodelle ben\"otigt, welche diese Da\-ten\-\"uber\-tra\-gungs\-ra\-ten entsprechend vorhersagen k\"onnen.
+
 Das erste Ziel dieses Projektes ist es nun, verschiedene Arten von Pr\"a\-dik\-tions\-mo\-dellen im Hinblick auf diese Problemstellung
 an\-zu\-wen\-den, und die G\"ute dieser Verfahren zu untersuchen.
 
 \subsubsection{Task II -- Vorhersage der eNodeB-Verbindungsdauern}
+
+Bei den ersten Eins\"atzen von DDNS in~\cite{IEEE} hat sich gezeigt, dass es oft zu gro{\ss}en Vorhersagefehlern kommt, wenn der
+Funkmast gewechselt wird (in der Fachsprache hei{\ss}en LTE-Funkmasten auch \textit{eNodeB}).
+Eine Idee, um diesem entgegenzuwirken ist, den Zeitpunk des eNodeB-Wechsels vorherzusagen. Kennt man diesen Zeitpunkt, k\"onnte man
+diese Information im n\"achsten Schritt dazu verwenden, um die Pr\"adiktionsmodelle zu verbessern.
+
+Das zweite Ziel dieses Projektes ist also, die Dauer der bestehenden Verbindung zu einer eNodeB und damit indirekt auch den
+Wechselzeitpunk zur n\"achsten eNodeB vorherzusagen.
+Auch hier wird die G\"ute des eingesetzten Pr\"adiktionsmodells anschlie{\ss}end analysiert.
