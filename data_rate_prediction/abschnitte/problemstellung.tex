@@ -11,12 +11,12 @@ Die Testfahrten verliefen \"uber vier zuvor festgelegte Routen, welche sich hins
     \item \textit{suburban}: Vorstadtbereich, Routenl\"ange: 9km.
     \item \textit{highway}: Autobahn, Routenl\"ange: 14km.
 \end{itemize}
-Jede dieser Messfahrten wurde zehn Mal wiederholt.
+Jede dieser Messfahrten wurde zehnmal wiederholt.
 Hierbei wurden sowohl passive Messungen der Netzqualit\"at mithilfe verschiedener Indikatoren, als auch aktive
 Messungen der Up- und Downloadraten durchgef\"uhrt.
-Die Messungen der Daten\"ubertragungsraten wurden alle 10s vollzogen, die Messungen der passiven Indikatoren alle 1s.
-Um die Daten\"ubertragungsraten erfassen zu k\"onnen,
-wurden Datenpakete zuf\"alliger Gr\"o{\ss}e von 0.1, 0.5, 1, ..., 10 MB an einen Server zur Messung \"ubertragen.
+Die Messungen der Da\-ten\-\"uber\-tra\-gungs\-ra\-ten wurden alle 10s vollzogen, die Messungen der passiven Indikatoren alle 1s.
+Um die Da\-ten\-\"uber\-tra\-gungs\-ra\-ten erfassen zu k\"onnen,
+wurden Datenpakete zuf\"alliger Gr\"o{\ss}e von \mbox{0.1, 0.5, 1, ..., 10 MB} an einen Server zur Messung \"ubertragen.
 Die insgesamt erhobenen Variablen seien in der folgenden Auflistung kurz beschrieben:
 \begin{itemize}
     \item \textbf{RSRP:}
@@ -33,6 +33,15 @@ Die insgesamt erhobenen Variablen seien in der folgenden Auflistung kurz beschri
 
 \subsection{Zielsetzungen}
 
-\subsubsection{Task I - Vorhersage der Daten\"ubertragungsraten}
+\subsubsection{Task I -- Vorhersage der Daten\"ubertragungsraten}
 
-\subsubsection{Task II - Vorhersage der eNodeB-Verbindungsdauern}
+In~\cite{IEEE} wurde ein neuartiger Ansatz der datengetriebenen Simulation von Netzwerken
+(Data-driven Network Simulation, \textit{DDNS}) vorgestellt, welcher darauf basiert, dass durch datengetriebene Modelle m\"oglichst
+realit\"atsnahe Simulationen von Netzwerken erzeugt werden sollen.
+Ein Aspekt dieser Modelle besteht darin, dass Up- und Down\-load\-ra\-ten abh\"angig von den \"ubrigen Netzwerkindikatoren 
+m\"oglichst realistisch modelliert werden m\"ussen.
+Hierzu werden Pr\"adiktionsmodelle ben\"otigt, welche diese Da\-ten\-\"uber\-tra\-gungs\-ra\-ten entsprechend vorhersagen k\"onnen.
+Das erste Ziel dieses Projektes ist es nun, verschiedene Arten von Pr\"a\-dik\-tions\-mo\-dellen im Hinblick auf diese Problemstellung
+an\-zu\-wen\-den, und die G\"ute dieser Verfahren zu untersuchen.
+
+\subsubsection{Task II -- Vorhersage der eNodeB-Verbindungsdauern}
