@@ -6,10 +6,10 @@ Die vorliegenden Daten wurden im Zuge mehrerer Testfahrten durch das deutsche LT
 T-Mobile und Vodafone im Raum Dortmund erhoben~\cite{IEEE}.
 Die Testfahrten verliefen \"uber vier zuvor festgelegte Routen, welche sich hinsichtlich der Art ihrer Umgebung unterscheiden:
 \begin{itemize}
-    \item \textit{campus}: Direkte Umgebung der TU Dortmund, Routenl\"ange 3km.
-    \item \textit{urban}: Stadtbereich, Routenl\"ange: 3km.
-    \item \textit{suburban}: Vorstadtbereich, Routenl\"ange: 9km.
-    \item \textit{highway}: Autobahn, Routenl\"ange: 14km.
+    \item \textbf{Campus}: Direkte Umgebung der TU Dortmund, Routenl\"ange 3km.
+    \item \textbf{Urban}: Stadtbereich, Routenl\"ange: 3km.
+    \item \textbf{Suburban}: Vorstadtbereich, Routenl\"ange: 9km.
+    \item \textbf{Highway}: Autobahn, Routenl\"ange: 14km.
 \end{itemize}
 Jede dieser Messfahrten wurde zehnmal wiederholt.
 Hierbei wurden sowohl passive Messungen der Netzqualit\"at mithilfe verschiedener Indikatoren, als auch aktive
@@ -38,6 +38,19 @@ Die insgesamt erhobenen Variablen seien in der folgenden Auflistung kurz beschri
     \item \textbf{Data Rate:} Die gemessene Daten\"ubertragungsrate. Es werden sowohl Upload- als auch Downloadraten gemessen.
 \end{itemize}
 
+Die Messungen aller Testfahrten lassen sich insgesamt zu vier verschiedenen Datens\"atzen zusammenfassen, welche auch sp\"ater
+zur Bearbeitung der Projektziele verwendet werden:
+\begin{itemize}
+    \item \textbf{Context}: Dieser Datensatz enth\"alt die sek\"undlich durchgef\"uhrten passiven Messungen der Netzwerkindikatoren.
+        Insgesamt enth\"alt dieser Datensatz 68334 Messungen.
+    \item \textbf{Cells}: Enth\"alt Messungen des RSRP und RSRQ zu den Nachbarzellen der aktuell verbundenen Zelle.
+        Dieser Datensatz enth\"alt insgesamt 93443 Messungen.
+    \item \textbf{Upload}: Dieser Datensatz enth\"alt die Messungen der Upload-Raten, welche alle 10s durchgef\"uhrt werden zuz\"uglich
+        der Indikatoren aus dem Context-Datensatz zum entsprechenden Zeitpunkt. Insgesamt enth\"alt dieser Datensatz 6180 Messungen.
+    \item \textbf{Download}: Analog zum Upload-Datensatz, nur dass hier die gemessenen Down\-load-Ra\-ten erfasst wurden.
+        Dieser Datensatz enth\"alt insgesamt 6516 Messungen.
+\end{itemize}
+
 \subsection{Zielsetzungen}
 
 \subsubsection{Task I -- Vorhersage der Daten\"ubertragungsraten}
@@ -51,6 +64,9 @@ Hierzu werden Pr\"adiktionsmodelle ben\"otigt, welche diese Da\-ten\-\"uber\-tra
 
 Das erste Ziel dieses Projektes ist es nun, verschiedene Arten von Pr\"a\-dik\-tions\-mo\-dellen im Hinblick auf diese Problemstellung
 an\-zu\-wen\-den, und die G\"ute dieser Verfahren zu untersuchen.
+Hierbei wird auch analysiert, ob sich das Verhalten der Modelle bez\"uglich der verschiedenen Netzbetreiber und Testfahrtszenarien
+unterscheidet.
+Weiterhin wird auch die Relevanz der verwendeten Kovariablen untersucht.
 
 \subsubsection{Task II -- Vorhersage der eNodeB-Verbindungsdauern}
 
@@ -59,6 +75,7 @@ Funkmast gewechselt wird (in der Fachsprache hei{\ss}en LTE-Funkmasten auch \tex
 Eine Idee, um diesem entgegenzuwirken ist, den Zeitpunk des eNodeB-Wechsels vorherzusagen. Kennt man diesen Zeitpunkt, k\"onnte man
 diese Information im n\"achsten Schritt dazu verwenden, um die Pr\"adiktionsmodelle zu verbessern.
 
-Das zweite Ziel dieses Projektes ist also, die Dauer der bestehenden Verbindung zu einer eNodeB und damit indirekt auch den
+Das zweite Ziel dieses Projektes ist also, die Restdauer der bestehenden Verbindung zu einer eNodeB und damit indirekt auch den
 Wechselzeitpunk zur n\"achsten eNodeB vorherzusagen.
-Auch hier wird die G\"ute des eingesetzten Pr\"adiktionsmodells anschlie{\ss}end analysiert.
+Auch hier wird die G\"ute des eingesetzten Pr\"adiktionsmodells anschlie{\ss}end analysiert und das Verhalten des Modells bez\"uglich
+der verschiedenen Netzbetreiber und Einsatzszenarien, sowie die Relevanz der verwendeten Kovariablen untersucht.
