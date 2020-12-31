@@ -1,3 +1,60 @@
 \section{Methodik}
 
-Dies und das...
+\subsection{Extreme Gradient Boosting}
+
+Extreme Gradient Boosting ist ein Verfahren aus dem Bereich des maschinellen Lernens, welches sich
+in den letzten Jahren einer immer gr\"o{\ss}eren Beliebtheit erfreut hat~\cite{XGBoost}.
+Die Grundlegende Funktionsweise dieses Verfahrens sei im Folgenden kurz beschrieben.
+
+\subsubsection{Ausgangssituation}
+
+Wir gehen davon aus, dass wir \"uber einen Trainingsdatensatz $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}$
+der Gr\"o{\ss}e $\left| \mathcal{D} \right| = n$ verf\"ugen, welcher aus den beobachteten Messungen $\mathbf{x}_i \in \mathbb{R}^m$
+und der Zielgr\"o{\ss}e $y_i \in \mathbb{R}$ besteht, deren Wert wir vorhersagen wollen.
+
+Das Ziel des Tree Boosting ist es, den Wert von $y_i$ durch ein Ensemble von Entscheidungsb\"aumen (CART)
+vorherzusagen:
+\begin{equation}
+    \hat{y_i} = \phi(\mathbf{x}_i) =  \sum_{k=1}^K f_k(\mathbf{x}_i), \quad f_k \in \mathcal{F}
+\end{equation}
+Hierbei ist $\mathcal{F}$ die Klasse der besagten Entscheidungsb\"aume, welche in jedem ihrer $T$ Bl\"atter
+einen konstanten Wert vorhersagen: $\mathcal{F} = \{f(\mathbf{x}) = w_{q(x)}\}$, wobei $q: \mathbb{R}^m \rightarrow T$
+eine Funktion ist, die der Beobachtung $\mathbf{x}$ eines der $T$ Bl\"atter zuordnet und $w \in \mathbb{R}^T$ der Vektor
+der Blattvorhersagen (Gewichte) des Baumes ist.
+
+\subsubsection{Zielfunktion}
+
+Die Zielfunktion, welche w\"ahrend des Trainings zur Anpassung des Modells minimiert wird, setzt sich wie folgt zusammen:
+\begin{equation}
+    \mathcal{L}(\phi) = \sum_{i=1}^n l(\hat{y}_i, y_i) + \sum_{k=1}^K \Omega(f_k)
+\end{equation}
+Hierbei ist $l$ eine differenzierbare und konvexe Verlustfunktion, welche Aufschluss \"uber die G\"ute der Vorhersage $\hat{y}_i$
+liefert. Ein Beispiel ist der quadratische Fehler, welcher durch $l(\hat{y}_i, y_i) = (\hat{y}_i - y_i)^2$ gegeben ist.
+Die Funktion $\Omega$ ist ein sogenannter Regularisierungs- oder Strafterm und ist wie folgt definiert:
+\begin{equation}
+    \Omega(f) = \gamma T + \frac{1}{2} \lambda \left \lVert w \right \rVert^2
+\end{equation}
+Das Ziel von $\Omega$ ist es, eine zu hohe Komplexit\"at der einzelnen Entscheidungsb\"aume in der Optimierung zu bestrafen und somit
+w\"ahrend des Trainings simplere B\"aume zu bevorzugen. Dies geschieht mit dem Hintergedanken, eine \"Uberanpassung des Modells an
+die Trainingsdaten verhindern zu wollen.
+Der Parameter $\gamma$ bestraft hierbei die Anzahl der Bl\"atter $T$ eines Entscheidungsbaumes und der Parameter $\lambda$ bestraft
+zu gro{\ss}e Gewichte in den einzelnen Bl\"attern.
+
+\subsubsection{Training}
+
+Das Grundprinzip des Boosting ist es, die Ensemble Modelle additiv nach dem Greedy-Prinzip zu trainieren.
+Dies funktioniert hier so, dass die einzelnen Entscheidungsb\"aume nicht alle gleichzeitig angepasst werden, sondern
+nach und nach zum Ensemble hinzugef\"ugt werden. Jeder Baum, welcher in einem Schritt hinzugef\"ugt wird, wird so trainiert,
+dass er die Zielfunktion soweit wie m\"oglich minimiert.
+
+Wenn im Optimierungsschritt $t$ also der Entscheidungsbaum $f_t$ zum Ensemble hinzugef\"ugt wird, ergibt sich die folgende
+Verlustfunktion, welche durch $f_t$ minimiert werden soll:
+\begin{equation}
+    \mathcal{L}^{(t)} = \sum_{i=1}^n l(\hat{y}^{(t-1)}_i + f_t(\mathbf{x}_i), y_i) + \Omega(f_t)
+\end{equation}
+Die Regularisierungsterme $\sum_{k=1}^{t-1} \Omega(f_k)$ der bereits zum Ensemble hinzugef\"ugten B\"aume wurden hierbei weggelassen,
+da sie im Zuge der Optimierung in Schritt $t$ nicht mehr ver\"andert werden k\"onnen.
+
+\subsection{Regression mit ARMA-Fehlern}
+
+\subsection{Validierung}
