@@ -58,3 +58,31 @@ da sie im Zuge der Optimierung in Schritt $t$ nicht mehr ver\"andert werden k\"o
 \subsection{Regression mit ARMA-Fehlern}
 
 \subsection{Validierung}
+
+Die Aufgabe der Modellvalidierung ist es, Aussagen dar\"uber zu treffen, wie sich ein trainiertes Modell auf neuen und ungesehenen Daten
+verhalten wird.
+Ein bekanntes Verfahren zur Modellvalidierung ist die $k$-fache Kreuzvalidierung~\cite{elements}, welche auch in~\cite{IEEE} zum Einsatz
+gekommen ist.
+Hierbei wird der gesamte Datensatz zun\"achst zuf\"allig in $k$ gleich gro{\ss}e Partitionen unterteilt,
+um im Anschluss das Modell jeweils auf $k-1$ Partitionen
+zu trainieren und die \"ubrige Partition zum testen zu verwenden. Dies wird solange wiederholt, bis jede der
+$k$ Partitionen genau einmal zum testen verwendet wurde.
+Obwohl dieses Verfahren sehr weit verbreitet ist, gibt es in der vorliegenden Situation jedoch Anhaltspunkte daf\"ur,
+dass sich die $k$-fache Kreuzvalidierung m\"oglicherweise als problematisch erweisen k\"onnte.
+
+In Abbildung~\ref{fig:messfahrt-vodafone} ist eine der durchgef\"uhrten Messfahrten einmal beispielhaft zu sehen.
+Man erkennt sofort, dass es sich bei den gemessenen Daten offenbar um eine Zeitreihe handelt.
+W\"urde man in dieser Situation eine $k$-fache Kreuzvalidierung einsetzen, bei der die Daten zuf\"allig partitioniert werden,
+so w\"urde der zeitliche Zusammenhang zwischen den Beobachtungen dadurch verloren gehen.
+Es w\"are also fraglich, ob durch diese Art der Validierung verl\"assliche Aussagen \"uber das Modellverhalten auf zuk\"unftig
+erhobenen Messdaten getroffen werden k\"onnen.
+Aus diesem Grund wurde in diesem Projekt ein eigenes Validierungsverfahren eingesetzt, welches speziell auf die vorliegende Situation
+zugeschnitten wurde.
+Dieses Verfahren wird im Folgenden vorgestellt.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{abbildungen/highway_drive_vodafone}
+    \caption{Die erste Messfahrt auf der Autobahn f\"ur den Netzbetreiber Vodafone am 12.12.2018.}
+    \label{fig:messfahrt-vodafone}
+\end{figure}
