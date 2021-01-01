@@ -78,7 +78,6 @@ Es w\"are also fraglich, ob durch diese Art der Validierung verl\"assliche Aussa
 erhobenen Messdaten getroffen werden k\"onnen.
 Aus diesem Grund wurde in diesem Projekt ein eigenes Validierungsverfahren eingesetzt, welches speziell auf die vorliegende Situation
 zugeschnitten wurde.
-Dieses Verfahren wird im Folgenden vorgestellt.
 
 \begin{figure}
     \centering
@@ -86,3 +85,28 @@ Dieses Verfahren wird im Folgenden vorgestellt.
     \caption{Die erste Messfahrt auf der Autobahn f\"ur den Netzbetreiber Vodafone am 12.12.2018.}
     \label{fig:messfahrt-vodafone}
 \end{figure}
+
+In Abbildung~\ref{fig:validierung} ist die in diesem Projekt eingesetzte Validierungsmethode einmal schematisch dargestellt.
+Wie bereits beschrieben, besteht der gesamte Datensatz an Messungen f\"ur einen Netzbetreiber aus zehn einzelnen Messfahrten f\"ur
+jedes der Szenarien \textit{campus}, \textit{highway}, \textit{suburban} und \textit{urban}.
+Jeder dieser Fahrten kann also chronologisch eine Nummer von 1-10 zugewiesen werden, welche zusammen mit dem Szenario
+eine Fahrt eindeutig identifiziert.
+Im hier eingesetzten Validierungsverfahren wurde nun zun\"achst der gesamte Datensatz in zwei Teile aufgeteilt.
+Der erste Teil besteht aus den Fahrten 1-7, der zweite Teil besteht aus den Fahrten 8-10.
+In der Trainingsphase und beim Parametertuning kommt ausschlie{\ss}lich der erste Teil der Fahrten 1-7 zum Einsatz.
+So wird sichergestellt, dass das Modell beim Training keine Informationen aus zuk\"unftigen Fahrten mit einbeziehen kann, wie
+es beispielsweise bei der $k$-fachen Kreuzvalidierung der Fall w\"are. Fahrten 8-10 werden also ausschlie{\ss}lich zur Modellvalidierung
+eingesetzt.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{abbildungen/validierung}
+    \caption{Das eingesetzte Verfahren zur Modellvalidierung.}
+    \label{fig:validierung}
+\end{figure}
+
+F\"ur eine geeignete Wahl der Hyperparameter werden auf dem Trainingsdatensatz, also Fahrten 1-7, verschiedene Parameterbelegungen
+getestet und evaluiert. Zur Evaluation einer Parameterkombination kommt hierbei, wie sich in Abbildung~\ref{fig:validierung} ebenfalls
+erkennen l\"asst, eine Art Kreuzvalidierung f\"ur Zeitreihen zum Einsatz. Hierbei wird der Trainingsdatensatz sukzessive um eine Fahrt
+erweitert und immer auf der n\"achsten Fahrt getestet. Die ermittelten G\"utema{\ss}e werden dann im Anschluss \"uber die
+Testdatens\"atze hinweg gemittelt.
