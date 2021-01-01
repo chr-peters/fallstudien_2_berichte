@@ -1,3 +1,53 @@
 \section{Ergebnisse}
 
-Dies und das...
+\subsection{Vorhersage der Daten\"ubertragungsraten}
+
+\subsubsection{Extreme Gradient Boosting}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/xgboost_predictions_ul}
+    \caption{Out-of-Sample Vorhersagen der Upload-Rate f\"ur Extreme Gradient Boosting.}
+    \label{fig:xgboost-ul}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/xgboost_predictions_dl}
+    \caption{Out-of-Sample Vorhersagen der Download-Rate f\"ur Extreme Gradient Boosting.}
+    \label{fig:xgboost-dl}
+\end{figure}
+
+\subsubsection{Regression mit ARMA-Fehlern}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/arma_predictions_ul}
+    \caption{Out-of-Sample Vorhersagen der Upload-Rate f\"ur Regression mit ARMA-Fehlern.}
+    \label{fig:arma-ul}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/arma_predictions_dl}
+    \caption{Out-of-Sample Vorhersagen der Download-Rate f\"ur Regression mit ARMA-Fehlern.}
+    \label{fig:arma-dl}
+\end{figure}
+
+\subsubsection{Modellvergleich}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{abbildungen/kennzahlen_vergleich_uplink}
+    \caption{Vergleich der Kennzahlen f\"ur die Vorhersage der Upload-Raten.}
+    \label{fig:kennzahlen-ul}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{abbildungen/kennzahlen_vergleich_downlink}
+    \caption{Vergleich der Kennzahlen f\"ur die Vorhersage der Download-Raten.}
+    \label{fig:kennzahlen-dl}
+\end{figure}
+
+\subsection{Vorhersage der eNodeB-Verbindungsdauern}
