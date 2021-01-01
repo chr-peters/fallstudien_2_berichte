@@ -57,6 +57,27 @@ Verlustfunktion, welche durch $f_t$ minimiert werden soll:
 Die Regularisierungsterme $\sum_{k=1}^{t-1} \Omega(f_k)$ der bereits zum Ensemble hinzugef\"ugten B\"aume wurden hierbei weggelassen,
 da sie im Zuge der Optimierung in Schritt $t$ nicht mehr ver\"andert werden k\"onnen.
 
+Beim Extreme Gradient Boosting wird $\mathcal{L}^{(t)}$ nun im Punkt $\hat{y}^{(t-1)}_i$ durch ein Taylor-Polynom 2. Grades
+approximiert, welches sich analytisch minimieren l\"asst.
+Streicht man alle konstanten Terme, welche f\"ur die Minimierung keine Rolle spielen, erh\"alt man so die folgende Taylor-Approximation:
+\begin{equation}
+    \tilde{\mathcal{L}}^{(t)} = \sum_{i=1}^{n} \left[ g_i f_t(x_i) + \frac{1}{2}h_i f_t^2(x_i) \right] + \Omega(f_t)
+\end{equation}
+Hierbei sind $g_i = \partial_{\hat{y}_i^{(t-1)}} l(y_i, \hat{y}_i^{(t-1)})$ und 
+$h_i = \partial_{\hat{y}_i^{(t-1)}}^2 l(y_i, \hat{y}_i^{(t-1)})$ die erste und zweite partielle Arbleitung der Verlustfunktion
+$l$.
+
+Wie in~\cite{XGBoost} gezeigt wurde, lassen sich dann die optimalen Gewichte $w_j^*, j=1 \ldots T$ f\"ur eine gegebene Baumstruktur
+$q$ durch analytische Minimierung von $\tilde{\mathcal{L}}^{(t)}$ berechnen.
+Die Bestimmung einer optimalen Baumstruktur $q$ hingegen ist rechnerisch durch Enumeration aller erdenklichen M\"oglichkeiten im
+Normalfall keine Option.
+Daher wird analog zum CART-Algorithms ein Greedy-Verfahren eingesetzt, welches den Baum durch sukzessives Hinzuf\"ugen neuer
+Verzweigungen aufbaut.
+Jede neue Verzweigung wird dabei so gew\"ahlt, dass der Wert von $\tilde{\mathcal{L}}^{(t)}$ durch die Bestimmung der optimalen
+Gewichte zum aktuellen Baum soweit wie m\"oglich minimiert wird.
+Der Regularisierungsterm $\Omega(f_t)$ verhindert dabei direkt durch seine Anwesenheit in $\tilde{\mathcal{L}}^{(t)}$, dass die neue
+Baumstruktur zu komplex wird.
+
 \subsection{Regression mit ARMA-Fehlern}
 
 \subsection{Validierung}
