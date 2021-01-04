@@ -216,6 +216,20 @@ sei ebenfalls hier angegeben:
     \item $\lambda \in \left[0, 10 \right]$
     \item $\eta \in \left[0.01, 1 \right]$
 \end{itemize}
+F\"ur die Gittersuche wurde dieser Suchraum entlang jeder Dimension in 20 Gitterpunkte unterteilt. Das resultierende Gitter wurde
+dann an 50 verschiedenen zuf\"alligen Stellen ausgewertet.
+
+\subsubsection{Relevanz der Kovariablen}
+
+Um die Relevanz der einzelnen Kovariablen f\"ur ein Extreme Gradient Boosting Modell beurteilen zu k\"onnen, wurde
+das Permutation Feature Importance Verfahren~\cite{molnar2019} verwendet.
+Bei diesem Verfahren wird zun\"achst ein beliebiges G\"utema{\ss}, z.B. der MAE, als Referenzwert f\"ur ein trainiertes Modell
+berechnet. Anschliessend wird eine der Kovariablen zuf\"allig permutiert und es wird \"Anderung des G\"utema{\ss}es f\"ur den auf
+diese Weise manipulierten Datensatz untersucht.
+Die Idee dabei ist, eine Variable durch das zuf\"allige Permutieren f\"ur das Modell unbrauchbar zu machen.
+Somit sollte sich das G\"utema{\ss} stark verschlechtern, wenn eine Variable permutiert wurde, die f\"ur das Modell sehr wichtig war.
+Bleibt das G\"utema{\ss} etwa gleich oder ver\"andert sich nur geringf\"ugig, so ist davon auszugehen, dass die Variable nicht von
+besonders gro{\ss}er Relevanz war.
 
 \subsection{Lineare Regression mit ARMA-Fehlern}
 \label{sec:arma}
