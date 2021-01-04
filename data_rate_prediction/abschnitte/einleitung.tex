@@ -4,7 +4,8 @@ F\"ur neuartige Verkehrstechnologien, wie das autonome Fahren, sind zuverl\"assi
 zu den Mobilfunknetzen von besonders gro{\ss}er Bedeutung~\cite{IEEE}.
 Um die immer weiter steigenden Anforderungen an die Verbindungsqualit\"at einhalten zu k\"onnen, bedarf es
 der kontinuierlichen Weiterentwicklung immer effizienterer Kommunikationsverfahren zwischen Endger\"at und Netzwerk.
-Bevor solche Verfahren jedoch in der Praxis eingesetzt werden k\"onnen, bedarf es zun\"achst ausgiebiger Testverfahren.
+
+Bevor solche Verfahren jedoch in der Praxis eingesetzt werden k\"onnen, bedarf es zun\"achst ausgiebiger Tests.
 Dies stellt die Wissenschaftler allerdings h\"aufig vor ein Dilemma: W\"ahrend die aussagekr\"aftigsten Ergebnisse nat\"urlich
 immer in einer realen Messumgebung erzielt werden k\"onnen, sind derartige Experimente meist sehr aufw\"andig, kostspielig und
 auch nur begrenzt reproduzierbar.
@@ -18,3 +19,12 @@ welche das Verhalten von Netzwerken basierend auf real erhobenen Netzdaten simul
 
 Ein zentraler Baustein innerhalb von DDNS ist dabei die m\"oglichst realit\"atsnahe Prognose von Daten\"ubertragungsraten basierend
 auf anderen real gemessenen Netzwerkindikatoren.
+Zu diesem Zweck kommen bei DDNS Pr\"adiktionsverfahren des Machine Learning zum Einsatz.
+Man erhofft sich durch das Training dieser Verfahren auf realen Netzwerkdaten eine m\"oglichst realistische Prognose der Datenraten und
+damit auch m\"oglichst aussagekr\"aftige Simulationsergebnisse.
+
+In diesem Projekt soll nun einmal die Eignung zweier Prognoseverfahren, \textit{Extreme Gradient Boosting} und
+\textit{Lineare Regression mit ARMA-Fehlern} anhand real erhobener Netzwerkdaten der Anbieter O2, T-Mobile und Vodafone
+im Raum Dortmund untersucht werden.
+Zu diesem Zweck werden die Modelle f\"ur jeden der Anbieter getrennt angepasst und anschlie{\ss}end auf ungesehenen Daten
+ausgewertet und miteinander verglichen.
