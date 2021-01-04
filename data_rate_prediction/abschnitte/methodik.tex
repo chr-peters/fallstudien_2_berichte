@@ -2,7 +2,41 @@
 
 \subsection{Allgemeine Vorgehensweise}
 
+\subsubsection{Vorhersage der Daten\"ubertragungsraten}
+
+Die Vorhersage der Daten\"ubertragungsraten wird analog zu~\cite{IEEE} ebenfalls mithilfe von
+Pr\"adiktionsmodellen aus dem Bereich des Machine-Learning bzw. des statistischen Lernens vorgenommen.
+Hierbei kommen die Verfahren \textit{Extreme Gradient Boosting} und \textit{Lineare Regression mit ARMA-Fehlern}
+zum Einsatz, welche in den Abschnitten~\ref{sec:xgboost} und~\ref{sec:arma} n\"aher beschrieben werden.
+Analog zu~\cite{IEEE} wird auch hier f\"ur jeden Netzbetreiber ein eigenes Modell angepasst.
+
+Der in Abschnitt~\ref{sec:daten} beschriebene Upload Datensatz, welcher s\"amtliche Kovariablen und die Zielvariable
+\textit{Data Rate} enth\"alt, dient hierbei als Basis zur Vorhersage der Upload-Datenraten.
+Analog dient der Download Datensatz zur Pr\"adiktion der Download Datenraten.
+In beiden F\"allen werden die Modelle also so angepasst, dass sie basierend auf den Kovariablen, also der gemessenen Netzwerkindikatoren,
+die Zielvariable \textit{Data Rate} prognostizieren sollen.
+
+\subsubsection{Vorhersage der eNodeB-Verbindungsdauern}
+
+Zur Vorhersage der Verbindungsdauern zu einer eNodeB kommen neben den Messungen zur aktuellen LTE-Zelle auch Messungen
+zu den Nachbarzellen in Betracht. In diesem Fall liegen f\"ur die Nachbarzellen Messungen des RSRP sowie des RSRQ vor,
+welche sich im Cells Datensatz finden. Der Context Datensatz enth\"ahlt alle Messungen bez\"uglich der aktuell verbundenen
+Zelle und soll als Basis f\"ur die Prognose der eNodeB-Verbindungsdauern dienen. Da dieser Datensatz aber keine Informationen
+zu den Nachbarzellen enth\"alt, m\"ussen die Datens\"atze Context und Cells vor der Pr\"adiktion noch zusammengef\"uhrt werden.
+Die eNodeB-IDs, welche zu diesem Zweck ben\"otigt werden, lassen sich unmittelbar aus der \textit{Cell ID} bestimmen.
+Das Zusammenf\"uhren der Datens\"atze geschieht so,
+dass zu jedem Zeitpunkt sowohl die Netzwerkindikatoren zur aktuell verbundenen eNodeB vorliegen, als auch die
+Informationen zum h\"ochsten RSRP und RSRP einer benachbarten eNodeB.
+Der Gedankengang hierbei ist, dass eine steigende Signalst\"arke bei einer benachbarten eNodeB m\"oglicherweise Aufschluss \"uber einen
+baldigen Verbindungswechsel geben k\"onnte.
+
+Die Zielvariable, also die Restdauer der aktuellen Verbindung zu einer eNodeB, kann leicht aus den Messdaten berechnet werden,
+indem man die Differenz des Zeitpunktes der aktuellen Messung zu dem Zeitpunkt der ersten zuk\"unftigen Messung an einer neuen
+eNodeB bildet. Als Pr\"adiktionsmodell der Verbindungsdauern kommt dann erneut das \textit{Extreme Gradient Boosting} zum Einsatz,
+welches f\"ur jeden der drei Netzbetreiber separat angepasst wird.
+
 \subsection{Extreme Gradient Boosting}
+\label{sec:xgboost}
 
 Extreme Gradient Boosting ist ein Verfahren aus dem Bereich des maschinellen Lernens, welches sich
 in den letzten Jahren einer immer gr\"o{\ss}eren Beliebtheit erfreut hat~\cite{XGBoost}.
@@ -78,13 +112,15 @@ Gewichte zum aktuellen Baum soweit wie m\"oglich minimiert wird.
 Der Regularisierungsterm $\Omega(f_t)$ verhindert dabei direkt durch seine Anwesenheit in $\tilde{\mathcal{L}}^{(t)}$, dass die neue
 Baumstruktur zu komplex wird.
 
-\subsection{Regression mit ARMA-Fehlern}
+\subsection{Lineare Regression mit ARMA-Fehlern}
+\label{sec:arma}
 
-\subsection{Validierung}
+\subsection{Validierung und Tuning}
 
-Die Aufgabe der Modellvalidierung ist es, Aussagen dar\"uber zu treffen, wie sich ein trainiertes Modell auf neuen und ungesehenen Daten
-verhalten wird.
-Ein bekanntes Verfahren zur Modellvalidierung ist die $k$-fache Kreuzvalidierung~\cite{elements}, welche auch in~\cite{IEEE} zum Einsatz
+Die Modellvalidierung erf\"ullt den Zweck, Aussagen dar\"uber treffen zu k\"onnen, wie sich die trainierten Modelle
+auf neuen und ungesehenen Daten, also beispielsweise zuk\"unfig stattfindenden Messungen, 
+verhalten werden.
+Ein bekanntes Verfahren dazu ist die $k$-fache Kreuzvalidierung~\cite{elements}, welche auch in~\cite{IEEE} zum Einsatz
 gekommen ist.
 Hierbei wird der gesamte Datensatz zun\"achst zuf\"allig in $k$ gleich gro{\ss}e Partitionen unterteilt,
 um im Anschluss das Modell jeweils auf $k-1$ Partitionen
@@ -123,7 +159,7 @@ eingesetzt.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{abbildungen/validierung}
+    \includegraphics[width=0.8\textwidth]{abbildungen/validierung}
     \caption{Das eingesetzte Verfahren zur Modellvalidierung.}
     \label{fig:validierung}
 \end{figure}
