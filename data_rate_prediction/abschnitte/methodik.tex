@@ -26,7 +26,7 @@ zu den Nachbarzellen enth\"alt, m\"ussen die Datens\"atze Context und Cells vor 
 Die eNodeB-IDs, welche zu diesem Zweck ben\"otigt werden, lassen sich unmittelbar aus der \textit{Cell ID} bestimmen.
 Das Zusammenf\"uhren der Datens\"atze geschieht so,
 dass zu jedem Zeitpunkt sowohl die Netzwerkindikatoren zur aktuell verbundenen eNodeB vorliegen, als auch die
-Informationen zum h\"ochsten RSRP und RSRP einer benachbarten eNodeB.
+Informationen zum h\"ochsten RSRP und RSRQ einer benachbarten eNodeB.
 Der Gedankengang hierbei ist, dass eine steigende Signalst\"arke bei einer benachbarten eNodeB m\"oglicherweise Aufschluss \"uber einen
 baldigen Verbindungswechsel geben k\"onnte.
 
@@ -34,6 +34,62 @@ Die Zielvariable, also die Restdauer der aktuellen Verbindung zu einer eNodeB, k
 indem man die Differenz des Zeitpunktes der aktuellen Messung zu dem Zeitpunkt der ersten zuk\"unftigen Messung an einer neuen
 eNodeB bildet. Als Pr\"adiktionsmodell der Verbindungsdauern kommt dann erneut das \textit{Extreme Gradient Boosting} zum Einsatz,
 welches f\"ur jeden der drei Netzbetreiber separat angepasst wird.
+
+\subsubsection{Validierung und Tuning}
+\label{sec:validierung-tuning}
+
+Die Modellvalidierung erf\"ullt den Zweck, Aussagen dar\"uber treffen zu k\"onnen, wie sich die trainierten Modelle
+auf neuen und ungesehenen Daten, also beispielsweise zuk\"unfig stattfindenden Messungen, 
+verhalten werden.
+Ein bekanntes Verfahren dazu ist die $k$-fache Kreuzvalidierung~\cite{elements}, welche auch in~\cite{IEEE} zum Einsatz
+gekommen ist.
+Hierbei wird der gesamte Datensatz zun\"achst zuf\"allig in $k$ gleich gro{\ss}e Partitionen unterteilt,
+um im Anschluss das Modell jeweils auf $k-1$ Partitionen
+zu trainieren und die \"ubrige Partition zum testen zu verwenden. Dies wird solange wiederholt, bis jede der
+$k$ Partitionen genau einmal zum testen verwendet wurde.
+Obwohl dieses Verfahren sehr weit verbreitet ist, gibt es in der vorliegenden Situation jedoch Anhaltspunkte daf\"ur,
+dass sich die $k$-fache Kreuzvalidierung m\"oglicherweise als problematisch erweisen k\"onnte.
+
+In Abbildung~\ref{fig:messfahrt-vodafone} ist eine der durchgef\"uhrten Messfahrten einmal beispielhaft zu sehen.
+Man erkennt sofort, dass es sich bei den gemessenen Daten offenbar um eine Zeitreihe handelt.
+W\"urde man in dieser Situation eine $k$-fache Kreuzvalidierung einsetzen, bei der die Daten zuf\"allig partitioniert werden,
+so w\"urde der zeitliche Zusammenhang zwischen den Beobachtungen dadurch verloren gehen.
+Es w\"are also fraglich, ob durch diese Art der Validierung verl\"assliche Aussagen \"uber das Modellverhalten auf zuk\"unftig
+erhobenen Messdaten getroffen werden k\"onnen.
+Aus diesem Grund wurde in diesem Projekt ein eigenes Validierungsverfahren eingesetzt, welches speziell auf die vorliegende Situation
+zugeschnitten wurde.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{abbildungen/highway_drive_vodafone}
+    \caption{Die erste Messfahrt auf der Autobahn f\"ur den Netzbetreiber Vodafone am 12.12.2018.}
+    \label{fig:messfahrt-vodafone}
+\end{figure}
+
+In Abbildung~\ref{fig:validierung} ist die in diesem Projekt eingesetzte Validierungsmethode einmal schematisch dargestellt.
+Wie bereits beschrieben, besteht der gesamte Datensatz an Messungen f\"ur einen Netzbetreiber aus zehn einzelnen Messfahrten f\"ur
+jedes der Szenarien \textit{campus}, \textit{highway}, \textit{suburban} und \textit{urban}.
+Jeder dieser Fahrten kann also chronologisch eine Nummer von 1-10 zugewiesen werden, welche zusammen mit dem Szenario
+eine Fahrt eindeutig identifiziert.
+Im hier eingesetzten Validierungsverfahren wurde nun zun\"achst der gesamte Datensatz in zwei Teile aufgeteilt.
+Der erste Teil besteht aus den Fahrten 1-7, der zweite Teil besteht aus den Fahrten 8-10.
+In der Trainingsphase und beim Parametertuning kommt ausschlie{\ss}lich der erste Teil der Fahrten 1-7 zum Einsatz.
+So wird sichergestellt, dass das Modell beim Training keine Informationen aus zuk\"unftigen Fahrten mit einbeziehen kann, wie
+es beispielsweise bei der $k$-fachen Kreuzvalidierung der Fall w\"are. Fahrten 8-10 werden also ausschlie{\ss}lich zur Modellvalidierung
+eingesetzt.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{abbildungen/validierung}
+    \caption{Das eingesetzte Verfahren zur Modellvalidierung.}
+    \label{fig:validierung}
+\end{figure}
+
+F\"ur eine geeignete Wahl der Hyperparameter werden auf dem Trainingsdatensatz, also Fahrten 1-7, verschiedene Parameterbelegungen
+getestet und evaluiert. Zur Evaluation einer Parameterkombination kommt hierbei, wie sich in Abbildung~\ref{fig:validierung} ebenfalls
+erkennen l\"asst, eine Art Kreuzvalidierung f\"ur Zeitreihen zum Einsatz. Hierbei wird der Trainingsdatensatz sukzessive um eine Fahrt
+erweitert und immer auf der n\"achsten Fahrt getestet. Die ermittelten G\"utema{\ss}e werden dann im Anschluss \"uber die
+Testdatens\"atze hinweg gemittelt.
 
 \subsection{Extreme Gradient Boosting}
 \label{sec:xgboost}
@@ -112,60 +168,29 @@ Gewichte zum aktuellen Baum soweit wie m\"oglich minimiert wird.
 Der Regularisierungsterm $\Omega(f_t)$ verhindert dabei direkt durch seine Anwesenheit in $\tilde{\mathcal{L}}^{(t)}$, dass die neue
 Baumstruktur zu komplex wird.
 
+\subsubsection{Hyperparameter}
+
+Die Hyperparameter des Extreme Gradient Boosting, welche im Rahmen dieses Projektes durch Tuning
+ermittelt wurden, seien im Folgenden kurz aufgelistet:
+\begin{itemize}
+    \item $n$: Anzahl der Boosting-Runden und damit auch Anzahl der B\"aume, die insgesamt zum Ensemble hinzugef\"ugt werden.
+        Je gr\"o{\ss}er dieser Parameter gew\"ahlt wird, desto komplexer wird das Modell.
+    \item $\gamma$: Regularisierungsterm, welcher die Anzahl an Bl\"attern eines Entscheidungsbaumes bestraft.
+        Dies soll die Bildung von zu komplexen B\"aumen im Ensemble verhindern und somit eine Ma{\ss}nahme gegen potenzielle
+        \"Uberanpassung sein.
+    \item $\lambda$: Bestraft zu hohe Gewichte in den Bl\"attern eines Entscheidungsbaumes, wird ebenfalls zur Vermeidung von
+        \"Uberanpassung verwendet.
+    \item $\eta$: Wurde in einer Boosting-Runde ein neuer Baum gefunden, so geht er nur mit dem Gewicht $\eta$ in das 
+        Gesamtensemble ein. Dies ist eine weitere Ma{\ss}nahme, die gegen \"Uberanpassung des Modells helfen soll.
+\end{itemize}
+Der Suchraum, welcher im Tuningprozess zur Ermittlung einer m\"oglichst guten Kombination der Hyperparameter verwendet wurde, 
+sei ebenfalls hier angegeben:
+\begin{itemize}
+    \item $n \in \left[100, 1000 \right]$
+    \item $\gamma \in \left[0, 10 \right]$
+    \item $\lambda \in \left[0, 10 \right]$
+    \item $\eta \in \left[0.01, 1 \right]$
+\end{itemize}
+
 \subsection{Lineare Regression mit ARMA-Fehlern}
 \label{sec:arma}
-
-\subsection{Validierung und Tuning}
-
-Die Modellvalidierung erf\"ullt den Zweck, Aussagen dar\"uber treffen zu k\"onnen, wie sich die trainierten Modelle
-auf neuen und ungesehenen Daten, also beispielsweise zuk\"unfig stattfindenden Messungen, 
-verhalten werden.
-Ein bekanntes Verfahren dazu ist die $k$-fache Kreuzvalidierung~\cite{elements}, welche auch in~\cite{IEEE} zum Einsatz
-gekommen ist.
-Hierbei wird der gesamte Datensatz zun\"achst zuf\"allig in $k$ gleich gro{\ss}e Partitionen unterteilt,
-um im Anschluss das Modell jeweils auf $k-1$ Partitionen
-zu trainieren und die \"ubrige Partition zum testen zu verwenden. Dies wird solange wiederholt, bis jede der
-$k$ Partitionen genau einmal zum testen verwendet wurde.
-Obwohl dieses Verfahren sehr weit verbreitet ist, gibt es in der vorliegenden Situation jedoch Anhaltspunkte daf\"ur,
-dass sich die $k$-fache Kreuzvalidierung m\"oglicherweise als problematisch erweisen k\"onnte.
-
-In Abbildung~\ref{fig:messfahrt-vodafone} ist eine der durchgef\"uhrten Messfahrten einmal beispielhaft zu sehen.
-Man erkennt sofort, dass es sich bei den gemessenen Daten offenbar um eine Zeitreihe handelt.
-W\"urde man in dieser Situation eine $k$-fache Kreuzvalidierung einsetzen, bei der die Daten zuf\"allig partitioniert werden,
-so w\"urde der zeitliche Zusammenhang zwischen den Beobachtungen dadurch verloren gehen.
-Es w\"are also fraglich, ob durch diese Art der Validierung verl\"assliche Aussagen \"uber das Modellverhalten auf zuk\"unftig
-erhobenen Messdaten getroffen werden k\"onnen.
-Aus diesem Grund wurde in diesem Projekt ein eigenes Validierungsverfahren eingesetzt, welches speziell auf die vorliegende Situation
-zugeschnitten wurde.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{abbildungen/highway_drive_vodafone}
-    \caption{Die erste Messfahrt auf der Autobahn f\"ur den Netzbetreiber Vodafone am 12.12.2018.}
-    \label{fig:messfahrt-vodafone}
-\end{figure}
-
-In Abbildung~\ref{fig:validierung} ist die in diesem Projekt eingesetzte Validierungsmethode einmal schematisch dargestellt.
-Wie bereits beschrieben, besteht der gesamte Datensatz an Messungen f\"ur einen Netzbetreiber aus zehn einzelnen Messfahrten f\"ur
-jedes der Szenarien \textit{campus}, \textit{highway}, \textit{suburban} und \textit{urban}.
-Jeder dieser Fahrten kann also chronologisch eine Nummer von 1-10 zugewiesen werden, welche zusammen mit dem Szenario
-eine Fahrt eindeutig identifiziert.
-Im hier eingesetzten Validierungsverfahren wurde nun zun\"achst der gesamte Datensatz in zwei Teile aufgeteilt.
-Der erste Teil besteht aus den Fahrten 1-7, der zweite Teil besteht aus den Fahrten 8-10.
-In der Trainingsphase und beim Parametertuning kommt ausschlie{\ss}lich der erste Teil der Fahrten 1-7 zum Einsatz.
-So wird sichergestellt, dass das Modell beim Training keine Informationen aus zuk\"unftigen Fahrten mit einbeziehen kann, wie
-es beispielsweise bei der $k$-fachen Kreuzvalidierung der Fall w\"are. Fahrten 8-10 werden also ausschlie{\ss}lich zur Modellvalidierung
-eingesetzt.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{abbildungen/validierung}
-    \caption{Das eingesetzte Verfahren zur Modellvalidierung.}
-    \label{fig:validierung}
-\end{figure}
-
-F\"ur eine geeignete Wahl der Hyperparameter werden auf dem Trainingsdatensatz, also Fahrten 1-7, verschiedene Parameterbelegungen
-getestet und evaluiert. Zur Evaluation einer Parameterkombination kommt hierbei, wie sich in Abbildung~\ref{fig:validierung} ebenfalls
-erkennen l\"asst, eine Art Kreuzvalidierung f\"ur Zeitreihen zum Einsatz. Hierbei wird der Trainingsdatensatz sukzessive um eine Fahrt
-erweitert und immer auf der n\"achsten Fahrt getestet. Die ermittelten G\"utema{\ss}e werden dann im Anschluss \"uber die
-Testdatens\"atze hinweg gemittelt.
