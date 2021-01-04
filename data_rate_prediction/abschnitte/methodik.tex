@@ -121,7 +121,9 @@ auf den Validierungsfahrten 8-10 evaluiert.
 
 Extreme Gradient Boosting ist ein Verfahren aus dem Bereich des maschinellen Lernens, welches sich
 in den letzten Jahren einer immer gr\"o{\ss}eren Beliebtheit erfreut hat~\cite{XGBoost}.
-Die Grundlegende Funktionsweise dieses Verfahrens sei im Folgenden kurz beschrieben.
+Eine sehr m\"achtige Implementierung, welche auch im Zuge dieses Projektes verwendet wurde, 
+findet sich in der Open-Source Softwarebibliothek XGBoost\footnote{\url{https://github.com/dmlc/xgboost}}.
+Die grundlegende Funktionsweise dieses Verfahrens sei im Folgenden kurz beschrieben.
 
 \subsubsection{Ausgangssituation}
 
@@ -228,8 +230,8 @@ berechnet. Anschliessend wird eine der Kovariablen zuf\"allig permutiert und es 
 diese Weise manipulierten Datensatz untersucht.
 Die Idee dabei ist, eine Variable durch das zuf\"allige Permutieren f\"ur das Modell unbrauchbar zu machen.
 Somit sollte sich das G\"utema{\ss} stark verschlechtern, wenn eine Variable permutiert wurde, die f\"ur das Modell sehr wichtig war.
-Bleibt das G\"utema{\ss} etwa gleich oder ver\"andert sich nur geringf\"ugig, so ist davon auszugehen, dass die Variable nicht von
-besonders gro{\ss}er Relevanz war.
+Bleibt das G\"utema{\ss} etwa gleich oder ver\"andert sich nur geringf\"ugig, so ist davon auszugehen, dass die Variable 
+f\"ur das Modell nicht von besonders gro{\ss}er Relevanz war.
 
 \subsection{Lineare Regression mit ARMA-Fehlern}
 \label{sec:arma}
