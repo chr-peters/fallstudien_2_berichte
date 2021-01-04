@@ -85,11 +85,36 @@ eingesetzt.
     \label{fig:validierung}
 \end{figure}
 
-F\"ur eine geeignete Wahl der Hyperparameter werden auf dem Trainingsdatensatz, also Fahrten 1-7, verschiedene Parameterbelegungen
-getestet und evaluiert. Zur Evaluation einer Parameterkombination kommt hierbei, wie sich in Abbildung~\ref{fig:validierung} ebenfalls
-erkennen l\"asst, eine Art Kreuzvalidierung f\"ur Zeitreihen zum Einsatz. Hierbei wird der Trainingsdatensatz sukzessive um eine Fahrt
-erweitert und immer auf der n\"achsten Fahrt getestet. Die ermittelten G\"utema{\ss}e werden dann im Anschluss \"uber die
-Testdatens\"atze hinweg gemittelt.
+\paragraph{Kennzahlen zur Evaluation der Vorhersagequalit\"at}
+
+Um die Vorhersagequalit\"at der eingesetzten Verfahren zu bewerten, werden die Kennzahlen
+$R^2$, sowie der Mean Absolute Error (MAE) auf den Out-of-Sample Fahrten 8-10 wie folgt berechnet:
+\begin{equation}
+    R^2 = 1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}
+\end{equation}
+\begin{equation}
+    \text{MAE} = \frac{1}{n} \sum_{i=1}^n \left| t_i - r_i \right|
+\end{equation}
+Hierbei ist $n$ die Anzahl der vorhergesagten Datenpunkte, $t_i$ gibt den wahren Wert der Zielgr\"o{\ss}e des $i$-ten Datenpunktes an,
+$r_i$ gibt den vorhergesagten Wert f\"ur die Zielgr\"o{\ss}e des $i$-ten Datenpunktes an und $\bar{t}$ bezeichnet den Mittelwert der
+Zielgr\"o{\ss}e.
+
+\paragraph{Tuning der Hyperparameter}
+
+Das Tuning der Hyperparameter wird systematisch auf den Fahrten 1-7 mithilfe einer zuf\"alligen Gittersuche vorgenommen.
+Dabei wird f\"ur jedes Modell ein fester Suchraum der Hyperparameter definiert, welcher entlang jeder Dimension in feste
+Gitterpunkte unterteilt wird. Das entstehende Gitter wird dann an einer festen Anzahl zuf\"alliger Stellen ausgewertet
+und die zugeh\"origen Parameterkombinationen werden evaluiert.
+
+Zur Evaluation einer Parameterkombination kommt, wie sich in Abbildung~\ref{fig:validierung} ebenfalls
+erkennen l\"asst, eine Art Kreuzvalidierung f\"ur Zeitreihen zum Einsatz. Dabei wird der Trainingsdatensatz sukzessive um eine Fahrt
+erweitert und es wird immer auf der n\"achsten Fahrt getestet.
+Dies soll die Begebenheit simulieren, dass nach und nach neue Messfahrten
+vorgenommen werden, die den Gesamtdatensatz Schritt f\"ur Schritt erweitern.
+
+Als G\"utekriterium f\"ur eine getestete Parameterkombination wird der MAE verwendet. Die beste Kombination aus Hyperparametern
+wird dann im Anschluss auf dem gesamten Trainingsdatensatz der Fahrten 1-7 zur Modellanpassung genutzt und anschlie{\ss}end
+auf den Validierungsfahrten 8-10 evaluiert.
 
 \subsection{Extreme Gradient Boosting}
 \label{sec:xgboost}
