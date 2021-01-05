@@ -263,11 +263,66 @@ Dies wird dadurch erreicht, dass man die Fehlerterme $\epsilon_i$ im linearen Mo
 \textit{Autoregressives Moving-Average (ARMA)} Modell abbildet, welches einen zeitlichen Zusammenhang zwischen
 den Fehlern modellieren kann.
 
-\subsubsection{ARMA-Prozesse}
+\subsubsection{Erweiterung durch ARMA-Prozesse}
 
-Die Modellgleichung eines ARMA-Prozesses einer Zeitreihe $(\epsilon_i)_{i=1}^n$ ist gegeben durch:
+Die Modellgleichung des ARMA-Prozesses einer Zeitreihe $(\epsilon_i)_{i=1}^n$ ist gegeben durch:
 \begin{equation}
-    \epsilon_i = \sum_{j=1}^p \phi_j \epsilon_{i-j} + \sum_{j=1}^q \theta_j \eta_{i-j} + \eta_i, \quad \eta_i \sim (0, \sigma^2)
+\label{eq:arma}
+    \epsilon_i = \underbrace{\sum_{j=1}^p \phi_j \epsilon_{i-j}}_\text{AR-Teil} + 
+        \underbrace{\sum_{j=1}^q \theta_j \eta_{i-j}}_\text{MA-Teil} + \eta_i, \quad \eta_i \sim (0, \sigma^2)
 \end{equation}
+Wie in der Gleichung~\ref{eq:arma} schon dargestellt, setzt sich dieser Prozess aus zwei Komponenten zusammen.
+Der Teil $\sum_{j=1}^p \phi_j \epsilon_{i-j}$ bezeichnet hierbei die Autoregressive Komponente des ARMA-Prozesses der Ordnung $p$,
+der Teil $\sum_{j=1}^q \theta_j \eta_{i-j}$ die Moving-Average Komponente der Ordnung $q$.
+Weiterhin bezeichnet $\eta_i$ den jeweiligen Modellfehler zum Zeitpunkt $i$, wobei die Modellfehler als unabh\"angig und identisch
+verteilte Zufallsvariablen mit Mittelwert 0 und Varianz $\sigma^2$ angenommen werden.
 
-\subsubsection{Erweiterung des linearen Modells um ARMA-Fehler}
+Bei der linearen Regression mit ARMA-Fehlern nimmt man nun an, dass die Vorhersagefehler der Regression, also die $\epsilon_i$,
+einem solchen ARMA-Prozess gehorchen.
+Erweitert man die Modellgleichung der linearen Regression entsprechend, so erh\"alt man die Gesamtgleichung der linearen Regression
+mit ARMA-Fehlern:
+\begin{equation}
+    y_i = \beta_0 + \sum_{j=1}^m \beta_j x_{ij} + \sum_{j=1}^p \phi_j \epsilon_{i-j} + 
+        \sum_{j=1}^q \theta_j \eta_{i-j} + \eta_i, \quad \eta_i \sim (0, \sigma^2)
+\end{equation}
+Die Ordnungsparameter $p$ und $q$ sind hierbei die Hyperparameter des Modells und m\"ussen vom Anwender sinnvoll gew\"ahlt werden.
+In diesem Projekt wurde hierzu wie in Abschnitt~\ref{sec:validierung-tuning} schon im Detail beschrieben, eine Gittersuche als
+Tuningalgorithmus eingesetzt.
+
+\subsubsection{Parametersch\"atzung und Modellannahmen}
+
+Zur Sch\"atzung der Modellparameter $\beta_i$, $\phi_j$ und $\theta_j$ gibt es im Allgemeinen mehrere M\"oglichkeiten~\cite{forecasting}.
+Das in diesem Projekt verwendete Softwarepaket \textit{forecast}\footnote{\url{https://pkg.robjhyndman.com/forecast/}} setzt
+hierzu die Maximum-Likelihood Methode ein.
+Bei dieser Methode wird unter Annahme einer konkreten Verteilung der $\eta_i$ die Wahrscheinlichkeit maximiert, mit welcher
+die jeweils Vorliegende Stichprobe aufgetreten ist. Die Maximierung dieser Wahrscheinlichkeit wird dann durch
+Optimierung der Modellparameter durchgef\"uhrt.
+
+Die g\"angigste Verteilungsannahme, welche auch im \textit{forecast} Paket implementiert ist, ist die Normalverteilungsannahme.
+Hierbei geht man konkret davon aus, dass $\eta_i \sim \mathcal{N}(0, \sigma^2)$ gilt.
+Um aussagekr\"aftige Ergebnisse zu erhalten, muss diese Annahme allerdings vorher \"uberpr\"uft werden.
+Hierzu eignen sich beispielsweise sogenannte qq-Plots, welche die Quantile der beobachteten Verteilung gegen die theoretischen
+Quantile einer Normalverteilung abtragen.
+Verh\"alt sich der Zusammenhang zwischen den gemessenen und den theoretischen Quantilen in etwa wie eine Gerade, so kann man
+davon ausgehen, dass die Normalverteilungsannahme erf\"ullt ist.
+
+Zur \"Uberpr\"ufung, ob dies auch in der vorliegenden Situation gegeben ist, ist in Abbildung~\ref{fig:qq-plots} f\"ur jeden der
+betrachteten Netzbetreiber ein QQ-Plot der Residuen aufgef\"uhrt. Man erkennt, dass grunds\"atzlich ein linearer Zusammenhang
+zwischen den theoretischen und den empirischen Quantilen vorhanden zu sein scheint. Es l\"asst sich zwar ebenfalls erkennen,
+dass es mitunter an den R\"andern leichte Abweichungen von der Gerade gibt, jedoch wird der lineare Zusammenhang
+dadurch nicht \"uberm\"a{\ss}ig verletzt. Da man in praktischen Anwendungen sowieso nur selten auf perfekt normalverteilte Daten
+trifft, wird an dieser Stelle unter der Pr\"amisse weitergearbeitet, dass die Normalverteilungsannahme als hinreichend erf\"ullt
+angesehen werden kann.
+\begin{figure}
+\centering
+\begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/qq_plots_ul}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/qq_plots_dl}
+\end{subfigure}
+\caption{QQ-Plots der Residuen f\"ur die verschiedenen Netzbetreiber.}
+\label{fig:qq-plots}
+\end{figure}
