@@ -235,3 +235,39 @@ f\"ur das Modell nicht von besonders gro{\ss}er Relevanz war.
 
 \subsection{Lineare Regression mit ARMA-Fehlern}
 \label{sec:arma}
+
+Die in diesem Projekt eingesetzte Variante der linearen Regression ist eine Erweiterung des klassischen linearen Modells,
+welche einen zeitlichen Zusammenhang zwischen den Fehlertermen als ARMA-Prozess abbilden kann.
+Eine vollst\"andige Beschreibung dieses Verfahrens findet sich in~\cite{forecasting},
+die Grundlagen seien hier aber im Folgenden kurz dargelegt.
+
+\subsubsection{Das lineare Modell}
+
+Das lineare Modell ist eins der bekanntesten Modelle aus dem Bereich des statistischen Lernens.
+F\"ur einen Datensatz $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}$ der Gr\"o{\ss}e $\left| \mathcal{D} \right| = n$
+mit $\mathbf{x}_i \in \mathbb{R}^m$ und $y_i \in \mathbb{R}$
+nimmt man bei dieser Methode an, dass zwischen $y_i$ und $x_i$ lediglich ein linearer Zusammenhang besteht:
+\begin{equation}
+    y_i = \beta_0 + \sum_{j=1}^m \beta_j x_{ij} + \epsilon_i, \quad \epsilon_i \sim (0, \sigma^2)
+\end{equation}
+Hierbei sind $\beta_j$ die Modellkoeffizienten, welche aus den Daten gesch\"atzt werden m\"ussen, und $\epsilon_i$ sind die
+zuf\"alligen Fehler des Modells.
+Wichtig ist es an dieser Stelle zu erw\"ahnen, dass man bei der klassischen linearen Regression annimmt, dass die Fehler $\epsilon_i$
+unabh\"angig voneinander verteilt sind und alle den Mittelwert 0 sowie identische Varianz $\sigma^2$ haben.
+
+Da es sich in der vorliegenden Situation jedoch um Zeitreihen handelt, kann nicht davon ausgegangen werden, dass die Annahme der
+Unabh\"angigkeit erf\"ullt ist.
+Aus diesem Grund wurde in diesem Projekt eine Erweiterung der linearen Regression eingesetzt, welche es zul\"asst, dass die
+Fehlerterme nicht notwendigerweise unabh\"angig sein m\"ussen.
+Dies wird dadurch erreicht, dass man die Fehlerterme $\epsilon_i$ im linearen Modell durch ein sogenanntes
+\textit{Autoregressives Moving-Average (ARMA)} Modell abbildet, welches einen zeitlichen Zusammenhang zwischen
+den Fehlern modellieren kann.
+
+\subsubsection{ARMA-Prozesse}
+
+Die Modellgleichung eines ARMA-Prozesses einer Zeitreihe $(\epsilon_i)_{i=1}^n$ ist gegeben durch:
+\begin{equation}
+    \epsilon_i = \sum_{j=1}^p \phi_j \epsilon_{i-j} + \sum_{j=1}^q \theta_j \eta_{i-j} + \eta_i, \quad \eta_i \sim (0, \sigma^2)
+\end{equation}
+
+\subsubsection{Erweiterung des linearen Modells um ARMA-Fehler}
