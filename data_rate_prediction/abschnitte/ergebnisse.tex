@@ -117,22 +117,66 @@ Ob dies einen Einfluss auf die Einsatztauglichkeit der Modelle in DDNS haben k\"
 
 \subsection{Vorhersage der eNodeB-Verbindungsdauern}
 
-Zur Vorhersage der eNodeB-Verbindungsdauern wurde ausschlie{\ss}lich das Extreme Gradient Boosting Modell
-eingesetzt. Die Out-of-Sample Vorhersagen hierzu finden sich in Abbildung~\ref{fig:link-lifetime-predictions}.
+Die Vorhersage der eNodeB-Verbindungsdauern wurde analog zur Vorhersage der Daten\"ubertragungsraten durchgef\"uhrt.
+Auch hier wurde das eingesetzte Vorhersagemodell, also das Extreme Gradient Boosting, zun\"achst wie in
+Abschnitt~\ref{sec:validierung-tuning} beschrieben auf den Fahrten \mbox{1-7} trainiert und getuned und im Anschluss
+auf den neuen und ungesehenen Daten der Fahrten \mbox{8-10} getestet.
+Es wurde hier ebenfalls f\"ur jeden der Netzbetreiber ein eigenes Modell angepasst, 
+die Out-of-Sample Vorhersagen finden sich in Abbildung~\ref{fig:link-lifetime-predictions}.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/predictions_linklifetime}
     \caption{Out-of-Sample Vorhersagen der eNodeB-Verbindungsdauern.}
     \label{fig:link-lifetime-predictions}
 \end{figure}
+Anders als bei der Vorhersage der Datenraten lassen die Scatterplots hier schon erste Unregelm\"a{\ss}igkeiten erkennen.
+Die Vorhersagepunkte streuen nicht sehr gleichm\"a{\ss}ig um die Winkelhalbierende, was auf systematische Modellfehler schlie{\ss}en
+l\"asst.
 
+Die Kennnzahlen des Modells sind in Abbildung~\ref{fig:kennzahlen-link-lifetime} gegeben.
+Hier lassen sich Unterschiede zwischen den Anbietern feststellen. F\"ur den Provider Vodafone scheint das Modell nach beiden
+Kriterien am schlechtesten abzuschneiden. O2 liefert das beste $R^2$ und T-Mobile den besten $MAE$.
+Diese Unterschiede lassen sich vermutlich darauf zur\"uckf\"uhren, dass der Mechanismus des Funkmastwechsels bei den verschiedenen
+Anbietern unterschiedlich realisiert wurde.
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{abbildungen/kennzahlen_linklifetime}
-    \caption{Kennzahlen Link-Lifetime.}
+    \includegraphics[width=0.6\textwidth]{abbildungen/kennzahlen_linklifetime}
+    \caption{Kennzahlen Link-Lifetime Vorhersage des Extreme Gradient Boosting.}
     \label{fig:kennzahlen-link-lifetime}
 \end{figure}
 
+Um zu zeigen, wie sich diese Unterschiede auswirken k\"onnen, sind in Abbildung~\ref{fig:link-lifetime-zeitreihe} die Out-of-Sample
+Vorhersagen der eNodeB-Verbindungsdauern f\"ur die Anbieter O2 und Vodafone einmal als Zeitreihe dargestellt.
+Man erkennt zwar insbesondere beim besser abschneidenden O2 Modell, dass die Vorhersagen teilweise schon mit den Beobachtungen
+einhergehen, jedoch sind die Streuungen und Abweichungen bei beiden Modellen teilweise sehr stark ausgepr\"agt.
+Es ist also wirklich fraglich und bleibt zu \"uberpr\"ufen, ob diese Vorhersagen einen brauchbaren Mehrwert liefern k\"onnen.
+\begin{figure}
+\centering
+\begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/link_lifetime_o2}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{abbildungen/link_lifetime_vodafone}
+\end{subfigure}
+\caption{Out-of-Sample Vorhersagen der eNodeB-Verbindungsdauer f\"ur die Anbieter O2 und Vodafone als Zeitreihe.}
+\label{fig:link-lifetime-zeitreihe}
+\end{figure}
+
+\subsubsection{Relevanz der Kovariablen}
+
+Die Relevanz der Kovariablen wurde hier wie schon bei der Vorhersage der Daten\"ubertragungsraten durch das
+Permutation Feature Importance Verfahren ermittelt.
+Die resultierenden Werte sind in Abbildung~\ref{fig:feature-importance-link-lifetime} aufgef\"uhrt.
+
+Man erkennt, dass die eNodeB, also die ID des aktuell verbundenen Funkmasts, f\"ur jeden der Provider die relevanteste
+Kovariable zu sein scheint. Die Variable Velocity, also die Geschwindigkeit mit der sich das Endger\"at fortbewegt, 
+ist ebenfalls sehr relevant. Dies ist auch intuitiv ersichtlich, wenn man sich vorstellt, dass beispielsweise ein schnell
+fahrendes Auto \"ofters den Funkmast wechseln muss. Bei den Anbietern O2 und Vodafone scheit zudem das RSRP der Nachbarzelle
+noch eine nicht unbedeutende Rolle zu spielen. Dies w\"are dadurch erkl\"arbar, dass eine steigende Signalqualit\"at zu einer
+anderen Zelle, welche m\"oglicherweise zu einem anderen Funkmast geh\"ort, ein Indiz f\"ur einen baldigen Funkmastwechsel sein k\"onnte.
+Auf der anderen Seite scheinen diese Werte f\"ur den Provider T-Mobile jedoch keine wesentliche Rolle zu spielen.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/feature_importance_linklifetime}
