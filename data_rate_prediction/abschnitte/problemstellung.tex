@@ -38,7 +38,7 @@ Die insgesamt erhobenen Variablen seien in der folgenden Auflistung kurz beschri
     \item \textbf{Payload Size:} Die Gr\"o{\ss}e des \"ubertragenen Datenpakets zur Ermittlung der Daten\"ubertragungsrate.
     \item \textbf{Data Rate:} Die gemessene Daten\"ubertragungsrate. Es werden sowohl Upload- als auch Downloadraten gemessen.
 \end{itemize}
-Zu den passiven Messungen, welche alle 1s durchgef\"uhrt werden, z\"ahlen hierbei RSRP, RSRQ, SINR, CQI, TA, f, Velocity und
+Zu den passiven Messungen, welche alle 1s durchgef\"uhrt wurden, z\"ahlen hierbei RSRP, RSRQ, SINR, CQI, TA, f, Velocity und
 Cell ID. Payload Size und Data Rate sind aktive Messungen, welche alle 10s vollzogen wurden.
 
 Die Messungen aller Testfahrten lassen sich insgesamt zu vier verschiedenen Datens\"atzen zusammenfassen, welche auch sp\"ater
@@ -63,9 +63,11 @@ den \"ubrigen Netzwerkindikatoren mithilfe von statistischen Vorhersagemodellen.
 
 Das erste Ziel dieses Projektes ist es nun, verschiedene Prognosemodelle
 auf diese Problemstellung an\-zu\-wen\-den, und die G\"ute dieser Verfahren zu untersuchen.
+Konkret kommen hier die Verfahren \textit{Extreme Gradient Boosting} und \textit{lineare Regression mit ARMA-Fehlern} zum
+Einsatz.
 Hierbei wird auch analysiert, ob sich das Verhalten der Modelle bez\"uglich der verschiedenen Netzbetreiber und Testfahrtszenarien
 unterscheidet.
-Weiterhin wird auch die Relevanz der verwendeten Kovariablen f\"ur die Modellvorhersagen untersucht.
+Weiterhin wird die Relevanz der verwendeten Kovariablen f\"ur die Modellvorhersagen untersucht.
 
 \subsubsection{Task II -- Vorhersage der eNodeB-Verbindungsdauern}
 

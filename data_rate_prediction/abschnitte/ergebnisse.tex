@@ -10,7 +10,7 @@ Die Out-of-Sample Vorhersagen des Extreme Gradient Boosting Modells f\"ur die Da
 in Abbildung~\ref{fig:datarate-predictions-xgboost} dargestellt.
 Man erkennt, dass sich die Verteilungen der Datenraten mitunter stark je nach Szenario und Anbieter unterscheiden.
 Vor allem f\"allt auf, dass der Anbieter Vodafone eine wesentlich h\"ohere Variation in den Download-Raten vorweist,
-alls die \"ubrigen Anbieter.
+als die \"ubrigen Anbieter.
 Insgesamt lassen sich anhand dieser Vorhersagen allerdings keine systematischen Unregelm\"a{\ss}igkeiten erkennen,
 die auf ein Modellversagen hindeuten k\"onnten.
 \begin{figure}
@@ -129,6 +129,7 @@ die Out-of-Sample Vorhersagen finden sich in Abbildung~\ref{fig:link-lifetime-pr
     \caption{Out-of-Sample Vorhersagen der eNodeB-Verbindungsdauern.}
     \label{fig:link-lifetime-predictions}
 \end{figure}
+
 Anders als bei der Vorhersage der Datenraten lassen die Scatterplots hier schon erste Unregelm\"a{\ss}igkeiten erkennen.
 Die Vorhersagepunkte streuen nicht sehr gleichm\"a{\ss}ig um die Winkelhalbierende, was auf systematische Modellfehler schlie{\ss}en
 l\"asst.
@@ -140,7 +141,7 @@ Diese Unterschiede lassen sich vermutlich darauf zur\"uckf\"uhren, dass der Mech
 Anbietern unterschiedlich realisiert wurde.
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{abbildungen/kennzahlen_linklifetime}
+    \includegraphics[width=0.8\textwidth]{abbildungen/kennzahlen_linklifetime}
     \caption{Kennzahlen Link-Lifetime Vorhersage des Extreme Gradient Boosting.}
     \label{fig:kennzahlen-link-lifetime}
 \end{figure}

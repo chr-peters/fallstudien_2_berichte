@@ -2,11 +2,21 @@
 
 In diesem Projekt wurde erfolgreich gezeigt, dass es prinzipiell m\"oglich ist, Daten\"ubertragungsraten in LTE-Netzen
 auf Basis gemessener Netzwerkindikatoren vorherzusagen, was die Idee des DDNS-Verfahrens rechtfertigt.
-Das Extreme Gradient Boosting Modell ist basierend auf den Out-of-Sample Auwertungen zu diesem Zweck besser geeignet,
+Das Extreme Gradient Boosting Modell ist basierend auf den Out-of-Sample Auswertungen zu diesem Zweck besser geeignet,
 als das etwas weniger komplexe Modell der linearen Regression mit ARMA-Fehlern.
 
 Bei der Vorhersage der eNodeB-Verbindungsdauern konnte zwar ebenfalls gezeigt werden, dass diese auf Basis der Messungen
 prinzipiell M\"oglich zu sein scheint, jedoch unterscheiden sich die Ergebnisse f\"ur die jeweiligen Anbieter mitunter stark.
-Es bleibt offen, ob und wie die Vorhersage der eNodeB-Verbindungsdauern zu einer Verbesserung der Vorhersage der
-Daten\"ubertragungsraten beitragen kann. Ein denkbarer Weg hierzu w\"are die Einbindung der vorhergesagten Verbindungsdauern
+Es bleibt offen, ob und wie die Vorhersagen der eNodeB-Verbindungsdauern zu einer Verbesserung der Vorhersage der
+Daten\"ubertragungsraten beitragen k\"onnen. Ein denkbarer Weg hierzu w\"are die Einbindung der vorhergesagten Verbindungsdauern
 als neue Kovariable f\"ur die Datenratenvorhersage. Ob dies dann einen tats\"achlichen Mehrwert liefern w\"urde, bleibt zu \"uberpr\"ufen.
+
+Bei der \"Ubertragung der vorliegenden Projektergebnisse auf zuk\"unftige Messungen ist allerdings trotz aller getroffenen Vorkehrungen
+bei der Modellvalidierung noch Vorsicht geboten. Man darf nicht vergessen, dass im Zuge der Datenerhebung lediglich vier verschiedene
+fest definierte Routen abgefahren wurden. Es wurde zwar penibel darauf geachtet, dass die Modelle bei der Auswertung keine
+Informationen aus zuk\"unftigen Messungen verwenden konnten, jedoch wurden in den Testfahrten 8-10 die gleichen Routen erneut
+gefahren, die auch schon in den Trainingsfahrten 1-7 gefahren wurden.
+\"Uber das Verhalten der Modelle auf neuen, noch nicht befahrenen Routen, kann auf Basis der vorliegenden Auswertung also keine
+belastbare Aussage getroffen werden. Dies k\"onnte aber ein Teil von zuk\"unftigen Analysen werden,
+welche m\"oglicherweise anderen Validierungsverfahren einsetzen,
+die diese Begebenheiten ber\"ucksichtigen k\"onnen.
