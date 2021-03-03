@@ -113,9 +113,9 @@ Beide werden im Folgenden kurz beschrieben.
 
 \paragraph{ReLU}
 
-Die ReLU Funktion ist nach~\cite{Goodfellow-et-al-2016} quasi eine
+Die ReLU Funktion ist nach~\cite{glorot} quasi eine
 Standardempfehlung f\"ur die Aktivierungsfunktion in den
-versteckten Schichten moderner tiefer neuronaler Netze.
+versteckten Schichten tiefer neuronaler Netze.
 Sie ist durch folgenden Ausdruck gegeben:
 \begin{equation*}
     \Phi_\text{ReLU}(x) = \max \{ 0, x \}
@@ -128,9 +128,58 @@ unber\"uhrt.
 \begin{equation*}
     \Phi_\text{Sigmoid}(x) = \frac{1}{1 + \exp{(-x)}}
 \end{equation*}
+Da der Wertebereich der Sigmoid Funktion auf das Intervall $[0, 1]$
+beschr\"ankt ist, kommt diese Funktion h\"aufig in der letzten Schicht
+zum Einsatz, also der Schicht, welche f\"ur die Vorhersage der
+Zielgr\"o{\ss}e $Y$ zust\"andig ist.
 
 \subsubsection{Training}
 \label{sec:training}
+
+M\"ochte man ein neuronales Netz zur Approximation einer unbekannten
+Funktion $f^*$ einsetzen, so muss man sich zun\"achst f\"ur eine
+grundlegende Architektur des Netzes entscheiden.
+Dies bedeutet, dass man festlegen muss, welche Art von Schichten wie
+miteinander kombiniert werden sollen.
+Je nach Anwendungsfall k\"onnen hier unterschiedliche Architekturen
+sinnvoll sein und es m\"ussen oft mehrere Varianten getestet und
+gegeneinander abgewogen werden.
+
+Gehen wir aber nun einmal davon aus, dass wir uns f\"ur eine konkrete
+Architektur entschieden haben (die tats\"achliche Architektur, die in
+diesem Projekt zum Einsatz gekommen ist, wird sp\"ater beschrieben).
+Die Frage ist nun, wie die freien Parameter, also die
+Gewichtsmatrizen $W$ sowie die Bias Vektoren $b$ in jeder Schicht angepasst
+werden k\"onnen, damit das neuronale Netz die Funktion $f^*$ m\"oglichst
+gut approximiert.
+
+Zur Beantwortung dieser Frage ist es hilfreich, sich in Erinnerung
+zu rufen, dass ein neuronales Netz lediglich durch eine Funktion
+$f(x)$ von einer Eingabe $x$ beschrieben werden kann.
+S\"amtliche Parameter dieser Funktion (also die Gewichtsmatrizen und
+die Bias-Vektoren) lassen sich o.B.d.A. zu einem einzigen
+Parametervektor $\theta$ zusammenfassen, welcher die Funktion $f$
+parametrisiert (wir sprechen deshalb im Folgenden von $f_\theta$).
+
+Gehen wir des Weiteren davon aus, dass wir eine Menge $S$ an Trainings-Beispielen
+vorliegen haben:
+\begin{equation}
+    S = \left\{ (x_1, y_1), ..., (x_n, y_n) \right\},
+    \quad x_i \in \mathbb{R}^p, \  y_i \in \mathbb{R}, \  i=1, ..., n
+\end{equation}
+
+Der mittlere quadratische Approximationsfehler unseres neuronalen Netzes
+$f_\theta$ f\"ur einen Parametervektor $\theta$ auf den Trainingsdaten $S$
+l\"asst sich dann wie folgt beschreiben:
+\begin{equation}
+    L(\theta) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(x_i))^2
+\end{equation}
+
+Das Training eines neuronalen Netzes $f_\theta$ besteht nun also darin,
+einen Parametervektor $\theta$ zu finden, f\"ur den die sogenannte
+Verlustfunktion $L(\theta)$ minimiert wird.
+Es liegt also ein nicht-lineares Optimierungsproblem einer geschlossenen
+und differenzierbaren Funktion $L(\theta)$ vor.
 
 \subsubsection{Convolutional Neural Networks}
 
