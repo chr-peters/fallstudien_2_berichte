@@ -20,7 +20,15 @@ zu approximieren.
 
 Die folgenden Erkl\"arungen zum Aufbau und zum Training neuronaler Netze
 st\"utzen sich wesentlich auf~\cite{Goodfellow-et-al-2016} und sind hier
-auf das grundlegendste reduziert.
+auf das grundlegendste reduziert worden.
+Obwohl es der Name \textit{neuronale} Netze suggeriert, wird auch hier
+genau wie in~\cite{Goodfellow-et-al-2016} ebenfalls auf jegliche
+biologische Motivation verzichtet, damit nicht der f\"alschliche Eindruck
+entstehen kann, dass es sich bei neuronalen Netzen um Modelle von echten
+biologischen Gehirnen handeln k\"onnte.
+Das Ziel von neuronalen Netzen ist es viel eher, unbekannte Funktionen
+anhand von Trainingsdaten zu approximieren und die Ergebnisse dann auf
+ungesehene Daten zu generalisieren.
 
 \subsubsection{Aufbau}
 
@@ -79,6 +87,13 @@ Multiplikation von $W$ mit $x$ addiert.
 Die Funktion $g: \mathbb{R}^m \rightarrow \mathbb{R}^m$ hei{\ss}t
 Aktivierungsfunktion.
 
+Oftmals ist es so, dass Aktivierungsfunktionen elementweise auf das
+Resultat von $Wx + b$ angewendet werden. Hierzu kann man sich eine
+Funktion $\Phi: \mathbb{R} \rightarrow \mathbb{R}$ definieren und dann
+$g_i(u) = \Phi(u_i), \  i=1,...,m$ setzen. Hierbei beschreibt $g_i$
+das $i$-te Element der vektorwertigen Funktion $g$ und $u_i$ das $i$-te
+Element des Vektors $Wx + b$.
+
 Die Parameter $W$ und $b$ einer Schicht k\"onnen w\"ahrend der Trainingsphase
 des neuronalen Netzwerks optimiert werden. Dieses Vorgehen wird in
 Abschnitt~\ref{sec:training} n\"aher beschrieben.
@@ -88,6 +103,31 @@ Parameter vor dem Training vom Anwender spezifiziert werden muss.
 
 \subsubsection{Aktivierungsfunktionen}
 
+Im Folgenden werden ausschlie{\ss}lich elementweise Aktivierungsfunktionen
+$\Phi: \mathbb{R} \rightarrow \mathbb{R}$ betrachtet,
+da diese die gr\"o{\ss}te praktische Relevanz haben.
+Zwei sehr h\"aufig eingesetzte Aktivierungsfunktionen, die auch in diesem
+Projekt verwendet wurden, sind die \textbf{Rectified Linear Unit (ReLU)}
+Funktion und die \textbf{Sigmoid} Funktion.
+Beide werden im Folgenden kurz beschrieben.
+
+\paragraph{ReLU}
+
+Die ReLU Funktion ist nach~\cite{Goodfellow-et-al-2016} quasi eine
+Standardempfehlung f\"ur die Aktivierungsfunktion in den
+versteckten Schichten moderner tiefer neuronaler Netze.
+Sie ist durch folgenden Ausdruck gegeben:
+\begin{equation*}
+    \Phi_\text{ReLU}(x) = \max \{ 0, x \}
+\end{equation*}
+Wird diese Funktion elementweise auf einen Vektor angewendet, so werden
+alle negativen Elemente auf Null gesetzt. Die restlichen Elemente bleiben
+unber\"uhrt.
+
+\paragraph{Sigmoid} Die Sigmoid Funktion ist durch folgenden Ausdruck gegeben:
+\begin{equation*}
+    \Phi_\text{Sigmoid}(x) = \frac{1}{1 + \exp{(-x)}}
+\end{equation*}
 
 \subsubsection{Training}
 \label{sec:training}
