@@ -38,13 +38,13 @@ Stelle bewusst ersteinmal offen bleiben.
 Solche Ketten von Funktionen k\"onnen gut durch
 azyklische Graphen beschrieben werden. Hierbei wird jedes Zwischenergebnis
 durch einen Knoten repr\"asentiert, jede Kante zwischen zwei Knoten beschreibt
-die Operation, die vom einen Ergebnis zum n\"achsten gef\"uhrt hat.
+die Operation, die von einen Ergebnis zum n\"achsten gef\"uhrt hat.
 Der Beispielgraph zu $f(x) = f^{(3)}(f^{(2)}(f^{(1)}(x)))$ ist in
 Abbildung~\ref{fig:einfacher-graph} zu sehen.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[height=0.25\textheight]{abbildungen/basic_network_graph}
+    \includegraphics[height=0.3\textheight]{abbildungen/basic_network_graph}
     \caption{Verkettung dreier Funktionen dargestellt als azyklischer Graph.}
     \label{fig:einfacher-graph}
 \end{figure}
@@ -54,8 +54,43 @@ $f^{(1)}$, $f^{(2)}$ und $f^{(3)}$ auch als eine \textbf{Schicht} im
 neuronalen Netz bezeichnet.
 Da $f^{(1)}$ und $f^{(2)}$ im Inneren des Netzwerks liegen, bezeichnet man
 diese Schichten auch als \textbf{versteckte Schichten}.
+Die Gesamtanzahl der Schichten wird als die \textbf{Tiefe} des neuronalen
+Netzes bezeichnet.
+
+Zusammenfassend l\"asst sich also sagen, dass sich ein neuronales Netz als
+eine Verkettung beliebiger Funktionen auffassen l\"asst, welche auf
+eine Eingabegr\"o{\ss}e $X$ angewendet werden.
+Wie genau diese Funktionen, also die Schichten des neuronalen Netzes,
+aussehen k\"onnen, wird nun im n\"achsten
+Abschnitt beschrieben.
+
+\subsubsection{Schichten}
+
+Eine Schicht eines neuronalen Netzes ist eine Funktion $f$, die eine
+Eingabe $x \in \mathbb{R}^n$ auf eine Ausgabe $f(x) \in \mathbb{R}^m$
+abbildet. H\"aufig hat $f$ dabei die folgende Form:
+\begin{equation}
+    f(x) = g(Wx + b)
+\end{equation}
+$W \in \mathbb{R}^{m \times n}$ ist hierbei eine sogenannte Gewichtsmatrix,
+die die Eingabe $x$ der Schicht linear transformiert.
+$b \in \mathbb{R}^m$ wird auch Bias genannt und wird auf das Ergebnis der
+Multiplikation von $W$ mit $x$ addiert.
+Die Funktion $g: \mathbb{R}^m \rightarrow \mathbb{R}^m$ hei{\ss}t
+Aktivierungsfunktion.
+
+Die Parameter $W$ und $b$ einer Schicht k\"onnen w\"ahrend der Trainingsphase
+des neuronalen Netzwerks optimiert werden. Dieses Vorgehen wird in
+Abschnitt~\ref{sec:training} n\"aher beschrieben.
+Die Aktivierungsfunktion einer Schicht hingegen ist ein sogenannter
+\textbf{Hyperparameter} des Netzwerks. Dies bedeutet, dass dieser
+Parameter vor dem Training vom Anwender spezifiziert werden muss.
+
+\subsubsection{Aktivierungsfunktionen}
+
 
 \subsubsection{Training}
+\label{sec:training}
 
 \subsubsection{Convolutional Neural Networks}
 
