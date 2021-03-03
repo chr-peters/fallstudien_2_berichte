@@ -181,6 +181,52 @@ Verlustfunktion $L(\theta)$ minimiert wird.
 Es liegt also ein nicht-lineares Optimierungsproblem einer geschlossenen
 und differenzierbaren Funktion $L(\theta)$ vor.
 
+Zur L\"osung eines solchen Problems gibt es viele verschiedene Verfahren.
+In der Praxis kommen meist Varianten des stochastischen Gradientenabstiegs
+zum Einsatz. Dieses allgemeine Optimierungsverfahren ist in~\cite{understanding_ml}
+im Bezug auf allgemeine Machine Learning Probleme ausf\"uhrlich beschrieben
+und analysiert worden und soll hier nur einmal bez\"uglich der
+vorliegenden Problemstellung kurz umrissen werden.
+
+\paragraph{Stochastischer Gradientenabstieg}
+
+M\"ochte man die Funktion $L(\theta)$ durch stochastischen Gradientenabstieg
+minimieren, so muss man zun\"achst einen Startwert $\theta^{(0)}$
+ausw\"ahlen, an welchem die Optimierung beginnen soll.
+Hierbei gibt es viele m\"ogliche Vorgehensweisen.
+Im Kontext tiefer neuronaler Netze hat sich beispielsweise die
+Glorot Initialisierung bew\"ahrt, welche erstmals in~\cite{glorot_init}
+vorgestellt wurde und auf eine m\"oglichst gleichm\"a{\ss}ige, aber zuf\"allige
+Initialisierung der Parameter abzielt.
+
+Hat man einen Startwert $\theta^{(0)}$ gew\"ahlt, so wird dieser nun
+durch stochastischen Gradientenabstieg schrittweise verbessert.
+Dies geschieht dadurch, dass sukkzessive Schritte in die Richtung
+des negativen Gradienten von $L(\theta)$ durchgef\"uhrt werden.
+Im Optimierungsschritt $t$ wird der aktuelle Parametervektor $\theta^{(t)}$
+also wie folgt aktualisiert:
+\begin{equation}
+    \theta^{(t+1)} = \theta^{(t)} - \eta \nabla L(\theta^{(t)})
+\end{equation}
+Hierbei gibt $\eta$ eine Schrittweite an, die zuvor vom Anwender
+spezifiziert werden muss.
+
+Die Idee dabei ist, dass der negative Gradient immer in die Richtung
+des steilsten Abstieges einer Funktion zeigt.
+Man erhofft sich durch diese lokale Minimierung der Funktion, dass
+man schlussendlich in einem globalen Minimum auskommt. Dies ist aber nur
+dann mathematisch garantiert, wenn die Funktion $L(\theta)$ konvex ist
+(in diesem Fall gibt es nur ein einziges globales Minimum).
+Da es sich hier allerdings um ein hochgradig nicht-lineares Optimierungsproblem
+handelt, ist die Konvexit\"at von $L$ f\"ur tiefe neuronale Netze in den
+meisten F\"allen nicht gegeben. Man kann also bestenfalls auf die Konvergenz
+des Verfahrens in ein lokales Minimum hoffen.
+Laut~\cite{local_minima} scheint es aber in der Praxis Anhaltspunkte
+daf\"ur zu geben, dass lokale Minima anders als man denken k\"onnte
+oft kein gro{\ss}es Problem beim Training darstellen.
+
+TODO: early stopping
+
 \subsubsection{Convolutional Neural Networks}
 
 \subsection{OpenCV}
