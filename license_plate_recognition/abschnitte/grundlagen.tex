@@ -31,6 +31,7 @@ anhand von Trainingsdaten zu approximieren und die Ergebnisse dann auf
 ungesehene Daten zu generalisieren.
 
 \subsubsection{Aufbau}
+\label{sec:aufbau}
 
 Wie in~\ref{sec:neuronale-netze} angedeutet, definiert ein neuronales Netz
 also eine Abbildung $f$, welche den Zusammenhang zwischen einer Eingabe $X$
@@ -225,7 +226,39 @@ Laut~\cite{local_minima} scheint es aber in der Praxis Anhaltspunkte
 daf\"ur zu geben, dass lokale Minima anders als man denken k\"onnte
 oft kein gro{\ss}es Problem beim Training darstellen.
 
-TODO: early stopping
+\paragraph{Berechnung der Gradienten}
+
+Eine weitere offene Frage ist, wie der Gradient von $L$ berechnet werden
+kann. Hierbei hilft es, sich erneut in Erinnerung zu rufen, dass es sich
+bei $L$ und auch bei $f_\theta$ um geschlossene Funktionen handelt,
+deren Gradienten explizit berechnet werden k\"onnen.
+Dennoch bleibt die Frage, wie dies algorithmisch effizient umgesetzt werden
+kann.
+
+In der Praxis kommt hier meist der sogenannte
+Backpropagation-Algorithmus~\cite{backpropagation} zum Einsatz.
+Eine detaillierte Beschreibung dieses Algorithmus' w\"urde an dieser
+Stelle zu weit f\"uhren, die Grundidee jedoch l\"asst sich in wenigen
+S\"atzen beschreiben.
+
+Wie bereits in Abschnitt~\ref{sec:aufbau} und insbesondere anhand von
+Abbildung~\ref{fig:einfacher-graph} gezeigt, lassen sich neuronale Netze
+als Verkettungen von Funktionen beschreiben, die durch
+azyklische Graphen dargestellt werden k\"onnen.
+Die Verlustfunktion, deren Gradient berechnet werden soll, l\"asst sich
+ebenfalls durch einen solchen Graphen beschreiben.
+Der Backpropagation-Algorithmus ist ein allgemeines Verfahren, welches den
+Gradienten von
+Funktionen, die durch azyklische Graphen beschrieben werden k\"onnen,
+durch Anwendung der \textbf{Kettenregel} berechnen kann.
+
+Die Details werden hier bewusst ausgespart, es soll allerdings betont
+werden, dass es sich beim Backpropagation-Algorithmus lediglich um eine
+effiziente Berechnungsvorschrift der Kettenregel f\"ur Funktionen handelt,
+die sich als azyklische Graphen darstellen lassen.
+Bekannte Programmbibliotheken wie Tensorflow~\cite{tensorflow2015-whitepaper}
+implementieren dieses Verfahren effizient und erfreuen sich daher
+gro{\ss}er Beliebtheit.
 
 \subsubsection{Convolutional Neural Networks}
 
