@@ -15,27 +15,54 @@ Zielvariable $Y$ durch eine Funktion $f^*$ mit $Y = f^*(X) + \epsilon$
 modellieren l\"asst. Hierbei kann $\epsilon$ als eine zuf\"allige
 St\"orgr\"o{\ss}e angesehen werden, die hier im weiteren Verlauf aber
 keine wichtige Rolle spielt.
-Das Ziel von Neuronalen Netzen ist es, die unbekannte Funktion $f^*$
+Das Ziel von neuronalen Netzen ist es, die unbekannte Funktion $f^*$
 zu approximieren.
+
+Damit $f^*$ approximiert werden kann, ist es notwendig, sowohl $X$
+als auch $Y$ zu Beobachten. Ist dies geschehen, so liegen die
+Beobachtungen in Form einer Menge von \textbf{Trainingsdaten}
+$S$ vor, die sich wie folgt formalisieren l\"asst:
+\begin{equation}
+    \label{eq:trainingsdaten}
+    S = \left\{ (x_1, y_1), ..., (x_n, y_n) \right\},
+    \quad x_i \in \mathbb{R}^p, \  y_i \in \mathbb{R}^d, \  i=1, ..., n
+\end{equation}
+Die $x_i$ entsprechen hierbei den Beobachtungen des Zufallsvektors $X$
+und die $y_i$ sind die Beobachtungen bez\"uglich $Y$.
+Dem aufmerksamen Leser wird aufgefallen sein, dass die $y_i$ (und damit auch $Y$)
+als Elemente des $\mathbb{R}^d$, also als $d$-dimensionale Vektoren
+modelliert wurden, was eine Abweichung zum Modell aus~\cite{statistical_learning}
+darstellt. Dies h\"angt mit der vorliegenden Datensituation dieses
+Projektes zusammen.
+
+Es kann an dieser Stelle n\"amlich schon vorweggenommen werden, dass es sich bei den
+$x_i$ hier um Bilddaten handelt, und zwar um Bilder von Autos
+mit Nummernschildern. Innerhalb der $y_i$ sollen dann sp\"ater
+Informationen zur Position der Nummernschilder kodiert werden,
+die durch das neuronale Netz vorhergesagt werden sollen.
+Details zur Kodierung der $y_i$ und auch der $x_i$ sollen aber
+an dieser Stelle bewusst noch
+nicht vertieft werden, da zun\"achst die wichtigsten Grundlagen neuronaler
+Netze entwickelt werden m\"ussen.
 
 Die folgenden Erkl\"arungen zum Aufbau und zum Training neuronaler Netze
 st\"utzen sich wesentlich auf~\cite{Goodfellow-et-al-2016} und sind hier
 auf das grundlegendste reduziert worden.
 Obwohl es der Name \textit{neuronale} Netze suggeriert, wird auch hier
 genau wie in~\cite{Goodfellow-et-al-2016} ebenfalls auf jegliche
-biologische Motivation verzichtet, damit nicht der f\"alschliche Eindruck
+biologische Motivation verzichtet, damit nicht der falsche Eindruck
 entstehen kann, dass es sich bei neuronalen Netzen um Modelle von echten
 biologischen Gehirnen handeln k\"onnte.
 Das Ziel von neuronalen Netzen ist es viel eher, unbekannte Funktionen
-anhand von Trainingsdaten zu approximieren und die Ergebnisse dann auf
-ungesehene Daten zu generalisieren.
+anhand von Trainingsdaten zu approximieren, um anschlie{\ss}end Vorhersagen
+auf neuen und ungesehenen Daten anzustellen.
 
 \subsubsection{Aufbau}
 \label{sec:aufbau}
 
-Wie in~\ref{sec:neuronale-netze} angedeutet, definiert ein neuronales Netz
-also eine Abbildung $f$, welche den Zusammenhang zwischen einer Eingabe $X$
-und einer Ausgabe $Y$ approximieren soll.
+Wie oben in~\ref{sec:neuronale-netze} schon angedeutet, definiert ein neuronales Netz
+also eine Abbildung $f$, welche den Zusammenhang zwischen einer Eingabe $x$
+und einer Ausgabe $y$ approximieren soll.
 Eine Hauptcharakteristik von neuronalen Netzen ist es, dass die Funktion $f$
 durch die Verkettung weiterer Funktionen gebildet wird.
 Ist ein neuronales Netz beispielsweise durch
@@ -43,8 +70,13 @@ $f(x) = f^{(3)}(f^{(2)}(f^{(1)}(x)))$ gegeben, so setzt es sich aus der
 Verkettung der einzelnen Funktionen $f^{(1)}$, $f^{(2)}$ und
 $f^{(3)}$ zusammen. Wie genau diese Funktionen aussehen k\"onnen, soll an dieser
 Stelle bewusst ersteinmal offen bleiben.
+Eine wichtige Voraussetzung an diese Funktionen ist allerdings die
+Differenzierbarkeit, welche sp\"ater f\"ur das Training eines neuronalen
+Netzes eine wichtige Rolle spielt.
+Ansonsten ist es aber schon ausreichend, sich neuronale Netze als
+Verkettungen (nahezu) beliebiger differenzierbarer Funktionen vorzustellen.
 
-Solche Ketten von Funktionen k\"onnen gut durch
+Solche Ketten von Funktionen k\"onnen gut durch gerichtete
 azyklische Graphen beschrieben werden. Hierbei wird jedes Zwischenergebnis
 durch einen Knoten repr\"asentiert, jede Kante zwischen zwei Knoten beschreibt
 die Operation, die von einen Ergebnis zum n\"achsten gef\"uhrt hat.
@@ -54,24 +86,36 @@ Abbildung~\ref{fig:einfacher-graph} zu sehen.
 \begin{figure}[h]
     \centering
     \includegraphics[height=0.3\textheight]{abbildungen/basic_network_graph}
-    \caption{Verkettung dreier Funktionen dargestellt als azyklischer Graph.}
+    \caption{Verkettung dreier Funktionen dargestellt als
+        gerichteter azyklischer Graph. Die Knoten $u^{(1)}$ und
+        $u^{(2)}$ stellen die Zwischenergebnisse der Funktionen
+        $f^{(1)}$ und $f^{(2)}$ dar, der Knoten $y$ repr\"asentiert
+        die Ausgabe des Netzes.}
     \label{fig:einfacher-graph}
 \end{figure}
 
+Anhand dieses Beispielgraphen f\"allt auf, dass alle Pfeile in die
+gleiche Richtung hin zur Ausgabe zeigen. Da eine Eingabe $x$ also
+bildlich gesprochen immer in eine Richtung \textit{vorw\"arts} durch
+den Graphen flie{\ss}t, spricht man hier auch von einem neuronalen
+\textbf{feed-forward} Netz. Da diese Art von neuronalen Netzen in der
+Praxis am h\"aufigsten vorkommt und auch in diesem Projekt verwendet
+wurde, beschr\"anken sich alle folgenden Erkl\"arungen auf
+feed-forward Netze.
+
 Im Kontext von neuronalen Netzen wird jede der Funktionen
-$f^{(1)}$, $f^{(2)}$ und $f^{(3)}$ auch als eine \textbf{Schicht} im
-neuronalen Netz bezeichnet.
+$f^{(1)}$, $f^{(2)}$ und $f^{(3)}$ auch als eine \textbf{Schicht} des
+Netzes bezeichnet.
 Da $f^{(1)}$ und $f^{(2)}$ im Inneren des Netzwerks liegen, bezeichnet man
 diese Schichten auch als \textbf{versteckte Schichten}.
-Die Gesamtanzahl der Schichten wird als die \textbf{Tiefe} des neuronalen
-Netzes bezeichnet.
-
-Zusammenfassend l\"asst sich also sagen, dass sich ein neuronales Netz als
-eine Verkettung beliebiger Funktionen auffassen l\"asst, welche auf
-eine Eingabegr\"o{\ss}e $X$ angewendet werden.
-Wie genau diese Funktionen, also die Schichten des neuronalen Netzes,
-aussehen k\"onnen, wird nun im n\"achsten
-Abschnitt beschrieben.
+Die letzte Schicht eines neuronalen Netzes hingegen, also in diesem
+Fall die Funktion $f^{(3)}$, wird als die \textbf{Ausgabeschicht} des
+Netzwerks bezeichnet. Der Wert dieser Schicht ist gleichzeitig
+auch der Ausgabewert des gesamten Netzes f\"ur eine Eingabe $x$.
+Die Gesamtanzahl der Schichten eines neuronalen Netzes wird auch
+als die \textbf{Tiefe} des Netzes bezeichnet.
+Wie genau die Schichten eines neuronalen Netzwerkes nun aussehen k\"onnen,
+soll im n\"achsten Abschnitt etwas detaillierter beschrieben werden.
 
 \subsubsection{Schichten}
 
@@ -83,6 +127,8 @@ abbildet. H\"aufig hat $f$ dabei die folgende Form:
 \end{equation}
 $W \in \mathbb{R}^{m \times n}$ ist hierbei eine sogenannte Gewichtsmatrix,
 die die Eingabe $x$ der Schicht linear transformiert.
+Ist $W$ dicht besetzt, so spricht man auch von einer dichten
+(eng. \textbf{dense}) Schicht.
 $b \in \mathbb{R}^m$ wird auch Bias genannt und wird auf das Ergebnis der
 Multiplikation von $W$ mit $x$ addiert.
 Die Funktion $g: \mathbb{R}^m \rightarrow \mathbb{R}^m$ hei{\ss}t
@@ -96,11 +142,14 @@ das $i$-te Element der vektorwertigen Funktion $g$ und $u_i$ das $i$-te
 Element des Vektors $Wx + b$.
 
 Die Parameter $W$ und $b$ einer Schicht k\"onnen w\"ahrend der Trainingsphase
-des neuronalen Netzwerks optimiert werden. Dieses Vorgehen wird in
+des neuronalen Netzwerks optimiert und an die Trainingsdaten
+angepasst werden. Dieses Vorgehen wird in
 Abschnitt~\ref{sec:training} n\"aher beschrieben.
 Die Aktivierungsfunktion einer Schicht hingegen ist ein sogenannter
 \textbf{Hyperparameter} des Netzwerks. Dies bedeutet, dass dieser
 Parameter vor dem Training vom Anwender spezifiziert werden muss.
+Der Parameter $m$, also die Ausgabedimension der Schicht, ist ebenfalls
+ein Hyperparameter.
 
 \subsubsection{Aktivierungsfunktionen}
 
@@ -130,9 +179,8 @@ unber\"uhrt.
     \Phi_\text{Sigmoid}(x) = \frac{1}{1 + \exp{(-x)}}
 \end{equation*}
 Da der Wertebereich der Sigmoid Funktion auf das Intervall $[0, 1]$
-beschr\"ankt ist, kommt diese Funktion h\"aufig in der letzten Schicht
-zum Einsatz, also der Schicht, welche f\"ur die Vorhersage der
-Zielgr\"o{\ss}e $Y$ zust\"andig ist.
+beschr\"ankt ist, kommt diese Funktion h\"aufig in der Ausgabeschicht
+von neuronalen Netzen zum Einsatz.
 
 \subsubsection{Training}
 \label{sec:training}
@@ -162,18 +210,12 @@ die Bias-Vektoren) lassen sich o.B.d.A. zu einem einzigen
 Parametervektor $\theta$ zusammenfassen, welcher die Funktion $f$
 parametrisiert (wir sprechen deshalb im Folgenden von $f_\theta$).
 
-Gehen wir des Weiteren davon aus, dass wir eine Menge $S$ an Trainings-Beispielen
-vorliegen haben:
-\begin{equation}
-    S = \left\{ (x_1, y_1), ..., (x_n, y_n) \right\},
-    \quad x_i \in \mathbb{R}^p, \  y_i \in \mathbb{R}, \  i=1, ..., n
-\end{equation}
-
 Der mittlere quadratische Approximationsfehler unseres neuronalen Netzes
-$f_\theta$ f\"ur einen Parametervektor $\theta$ auf den Trainingsdaten $S$
-l\"asst sich dann wie folgt beschreiben:
+$f_\theta$ f\"ur einen Parametervektor $\theta$ auf den bereits
+in Gleichung~\ref{eq:trainingsdaten} beschriebenen Trainingsdaten $S$
+l\"asst sich dann wie folgt berechnen:
 \begin{equation}
-    L(\theta) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(x_i))^2
+    L(\theta) = \frac{1}{n} \sum_{i=1}^n \left\lVert y_i - f_\theta(x_i) \right\lVert_2^2
 \end{equation}
 
 Das Training eines neuronalen Netzes $f_\theta$ besteht nun also darin,
@@ -197,7 +239,7 @@ ausw\"ahlen, an welchem die Optimierung beginnen soll.
 Hierbei gibt es viele m\"ogliche Vorgehensweisen.
 Im Kontext tiefer neuronaler Netze hat sich beispielsweise die
 Glorot Initialisierung bew\"ahrt, welche erstmals in~\cite{glorot_init}
-vorgestellt wurde und auf eine m\"oglichst gleichm\"a{\ss}ige, aber zuf\"allige
+vorgestellt wurde und auf eine zuf\"allige, aber m\"oglichst gleichm\"a{\ss}ige
 Initialisierung der Parameter abzielt.
 
 Hat man einen Startwert $\theta^{(0)}$ gew\"ahlt, so wird dieser nun
@@ -261,6 +303,11 @@ implementieren dieses Verfahren effizient und erfreuen sich daher
 gro{\ss}er Beliebtheit.
 
 \subsubsection{Convolutional Neural Networks}
+
+Convolutional Neural Networks (im Folgenden CNN) zeichnen sich dadurch aus,
+dass in mindestens einer Schicht keine klassische Matrix-Vektor
+Multiplikation durchgef\"uhrt wird, sondern eine sogenannte
+Faltungsoperation (eng. Convolution).
 
 \subsection{OpenCV}
 
