@@ -1,6 +1,6 @@
 \section{Einleitung}
 
-Die automatisierte Erkennung von Nummernschildern aus Bilddateien
+Die automatisierte Erkennung von Nummernschildern aus Bilddaten
 ist ein wichtiger Bestandteil vieler moderner Verkehrssysteme
 und kommt beispielsweise in Parkh\"ausern, Mautstellen
 oder bei der Identifikation gestohlener Fahrzeuge zum
@@ -8,19 +8,28 @@ Einsatz~\cite{silva2018a}.
 
 Das Ziel dieses Projektes ist es, einen Prototypen f\"ur ein solches
 Erkennungssystem zu entwickeln, welcher in der
-Lage sein soll, erfolgreich Nummernschilder aus Bilddateien erkennen
+Lage sein soll, erfolgreich Nummernschilder aus Bilddaten erkennen
 und auszulesen zu k\"onnen.
 
-Zu diesem Zweck kommen bei der Entwicklung des Prototypen Methodiken aus dem
-Bereich des Deep Learning, sowie der Optical Character Recognition
-zum Einsatz, die in Abschnitt~\ref{sec:grundlagen} n\"aher beschrieben
-werden.
+Zu diesem Zweck wird eine zweistufige Vorhersagepipeline konstruiert,
+die ausgehend von einer Bilddatei im ersten Schritt die Position des
+Nummernschildes bestimmt und im zweiten Schritt anhand der zuvor ermittelten
+Position die Zeichen des Nummernschildes ausliest.
+
+Bei der Positionsbestimmung des Nummernschildes kommen sogenannte
+Convolutional Neural Networks zum Einsatz, eine spezielle Art von
+Neuronalen Netzen, deren Grundlagen in Abschnitt~\ref{sec:grundlagen}
+beschrieben werden. Zum Auslesen der Zeichen werden die
+Programmbibliotheken OpenCV~\cite{opencv_library} und Tesseract~\cite{smith_2007}
+verwendet.
+
 Ein \"Uberblick \"uber das vorliegende Datenmaterial, welches
-zum Training dieser Algorithmen wervendet wurde, wird in
+bei der Erstellung der Pipeline verwendet wurde, wird in
 Abschnitt~\ref{sec:Datenbeschreibung} gegeben.
-Abschlie{\ss}end werden die erzielten Ergebnisse in
-Abschnitt~\ref{sec:ergebnisse} beschrieben und die St\"arken
-sowie die Schw\"achen des Prototypen diskutiert.
+Der gesamte Aufbau der Pipeline wird in Abschnitt~\ref{sec:pipeline}
+erl\"autert, im Anschluss werden die Ergebnisse in Abschnitt~\ref{sec:ergebnisse}
+beschrieben und die St\"arken sowie die Schw\"achen des entwickelten
+Prototypen diskutiert.
 
 Der gesamte Quellcode dieses Projekts ist Open Source und kann
 unter \url{https://github.com/cxan96/license_plate_detection}

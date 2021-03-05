@@ -61,8 +61,8 @@ auf neuen und ungesehenen Daten anzustellen.
 \label{sec:aufbau}
 
 Wie oben in~\ref{sec:neuronale-netze} schon angedeutet, definiert ein neuronales Netz
-also eine Abbildung $f$, welche den Zusammenhang zwischen einer Eingabe $x$
-und einer Ausgabe $y$ approximieren soll.
+also eine Abbildung $f$, welche den Zusammenhang zwischen einer Eingabe $x \in \mathbb{R}^p$
+und einer Ausgabe $y \in \mathbb{R}^d$ approximieren soll.
 Eine Hauptcharakteristik von neuronalen Netzen ist es, dass die Funktion $f$
 durch die Verkettung weiterer Funktionen gebildet wird.
 Ist ein neuronales Netz beispielsweise durch
@@ -139,12 +139,18 @@ Resultat von $Wx + b$ angewendet werden. Hierzu kann man sich eine
 Funktion $\Phi: \mathbb{R} \rightarrow \mathbb{R}$ definieren und dann
 $g_i(u) = \Phi(u_i), \  i=1,...,m$ setzen. Hierbei beschreibt $g_i$
 das $i$-te Element der vektorwertigen Funktion $g$ und $u_i$ das $i$-te
-Element des Vektors $Wx + b$.
+Element des Eingabevektors $u$ der Aktivierungsfunktion,
+also in diesem Fall $u = Wx + b$.
+
+F\"ur das sp\"ater in Abschnitt~\ref{sec:training} beschriebene
+Training neuronaler Netze ist es wichtig, dass $f$ eine differenzierbare
+Funktion ist. Damit dies gegeben ist, muss in diesem Fall also auch die
+Aktivierungsfunktion $g$, beziehungsweise die elementweise angewendete
+Funktion $\Phi$ differenzierbar sein.
 
 Die Parameter $W$ und $b$ einer Schicht k\"onnen w\"ahrend der Trainingsphase
 des neuronalen Netzwerks optimiert und an die Trainingsdaten
-angepasst werden. Dieses Vorgehen wird in
-Abschnitt~\ref{sec:training} n\"aher beschrieben.
+angepasst werden.
 Die Aktivierungsfunktion einer Schicht hingegen ist ein sogenannter
 \textbf{Hyperparameter} des Netzwerks. Dies bedeutet, dass dieser
 Parameter vor dem Training vom Anwender spezifiziert werden muss.
@@ -173,6 +179,19 @@ Sie ist durch folgenden Ausdruck gegeben:
 Wird diese Funktion elementweise auf einen Vektor angewendet, so werden
 alle negativen Elemente auf Null gesetzt. Die restlichen Elemente bleiben
 unber\"uhrt.
+Dieses Vorgehen hat in der Praxis viele Vorteile~\cite{glorot}, unter
+anderem erreicht man durch das Setzen negativer Eingaben auf 0,
+dass Zwischenergebnisse im Netzwerk d\"unn besetzt sind, was das Training
+der neuronalen Netze erleichtern kann.
+
+Es f\"allt sofort auf, dass die ReLU Funktion im Punkt $x=0$ nicht
+differenzierbar ist, was ja eigentlich f\"ur das Training neuronaler
+Netze unerw\"unscht ist.
+Dies stellt dank des Konzeptes von Subgradienten~\cite{understanding_ml}
+(was hier bewusst nicht weiter vertieft werden soll)
+aber in der Praxis kein Problem dar, da man den Wert der Ableitung der ReLU Funktion
+an der Stelle $x=0$ in praktischen Implementierungen auf einen konstanten
+Wert zwischen 0 und 1 setzen kann.
 
 \paragraph{Sigmoid} Die Sigmoid Funktion ist durch folgenden Ausdruck gegeben:
 \begin{equation*}
@@ -180,7 +199,11 @@ unber\"uhrt.
 \end{equation*}
 Da der Wertebereich der Sigmoid Funktion auf das Intervall $[0, 1]$
 beschr\"ankt ist, kommt diese Funktion h\"aufig in der Ausgabeschicht
-von neuronalen Netzen zum Einsatz.
+von neuronalen Netzen zum Einsatz. Beispielsweise bietet es sich im
+Szenario einer bin\"aren Klassifikation, also $y \in \{0, 1\}$, h\"aufig
+an, die Sigmoidfunktion in der Ausgabeschicht zu verwenden.
+Das weitere Vorgehen ist dann sehr \"ahnlich zur
+logistischen Regression~\cite{statistical_learning}.
 
 \subsubsection{Training}
 \label{sec:training}
@@ -273,7 +296,7 @@ oft kein gro{\ss}es Problem beim Training darstellen.
 Eine weitere offene Frage ist, wie der Gradient von $L$ berechnet werden
 kann. Hierbei hilft es, sich erneut in Erinnerung zu rufen, dass es sich
 bei $L$ und auch bei $f_\theta$ um geschlossene Funktionen handelt,
-deren Gradienten explizit berechnet werden k\"onnen.
+deren Gradienten explizit angegeben werden k\"onnen.
 Dennoch bleibt die Frage, wie dies algorithmisch effizient umgesetzt werden
 kann.
 
@@ -296,18 +319,17 @@ durch Anwendung der \textbf{Kettenregel} berechnen kann.
 
 Die Details werden hier bewusst ausgespart, es soll allerdings betont
 werden, dass es sich beim Backpropagation-Algorithmus lediglich um eine
-effiziente Berechnungsvorschrift der Kettenregel f\"ur Funktionen handelt,
-die sich als azyklische Graphen darstellen lassen.
+effiziente Berechnungsvorschrift der Kettenregel handelt.
 Bekannte Programmbibliotheken wie Tensorflow~\cite{tensorflow2015-whitepaper}
-implementieren dieses Verfahren effizient und erfreuen sich daher
+implementieren dieses Verfahren durch effiziente Ausnutzung vorhandener
+Hardware (insbesondere GPUs) und erfreuen sich daher
 gro{\ss}er Beliebtheit.
 
 \subsubsection{Convolutional Neural Networks}
 
-Convolutional Neural Networks (im Folgenden CNN) zeichnen sich dadurch aus,
-dass in mindestens einer Schicht keine klassische Matrix-Vektor
-Multiplikation durchgef\"uhrt wird, sondern eine sogenannte
-Faltungsoperation (eng. Convolution).
+Convolutional Neural Networks (im folgenden \textbf{CNN}) sind eine
+spezielle Art von neuronalen feed-forward Netzen, die sich besonders f\"ur den
+Einsatz auf Bilddaten eignen~\cite{Goodfellow-et-al-2016}.
 
 \subsection{OpenCV}
 
