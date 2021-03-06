@@ -1,7 +1,4 @@
-\section{Grundlagen}
-\label{sec:grundlagen}
-
-\subsection{Neuronale Netze}
+\section{Grundlagen neuronaler Netze}
 \label{sec:neuronale-netze}
 
 Neuronale Netze sind eine Modellklasse, welche zur L\"osung des
@@ -57,7 +54,7 @@ Das Ziel von neuronalen Netzen ist es viel eher, unbekannte Funktionen
 anhand von Trainingsdaten zu approximieren, um anschlie{\ss}end Vorhersagen
 auf neuen und ungesehenen Daten anzustellen.
 
-\subsubsection{Aufbau}
+\subsection{Aufbau}
 \label{sec:aufbau}
 
 Wie oben in~\ref{sec:neuronale-netze} schon angedeutet, definiert ein neuronales Netz
@@ -117,7 +114,7 @@ als die \textbf{Tiefe} des Netzes bezeichnet.
 Wie genau die Schichten eines neuronalen Netzwerkes nun aussehen k\"onnen,
 soll im n\"achsten Abschnitt etwas detaillierter beschrieben werden.
 
-\subsubsection{Schichten}
+\subsection{Schichten}
 \label{sec:schichten}
 
 Eine Schicht eines neuronalen Netzes ist eine Funktion $f$, die eine
@@ -158,7 +155,7 @@ Parameter vor dem Training vom Anwender spezifiziert werden muss.
 Der Parameter $m$, also die Ausgabedimension der Schicht, ist ebenfalls
 ein Hyperparameter.
 
-\subsubsection{Aktivierungsfunktionen}
+\subsection{Aktivierungsfunktionen}
 
 Im Folgenden werden ausschlie{\ss}lich elementweise Aktivierungsfunktionen
 $\Phi: \mathbb{R} \rightarrow \mathbb{R}$ betrachtet,
@@ -206,7 +203,7 @@ an, die Sigmoidfunktion in der Ausgabeschicht zu verwenden.
 Das weitere Vorgehen ist dann sehr \"ahnlich zur
 logistischen Regression~\cite{statistical_learning}.
 
-\subsubsection{Training}
+\subsection{Training}
 \label{sec:training}
 
 M\"ochte man ein neuronales Netz zur Approximation einer unbekannten
@@ -326,7 +323,7 @@ implementieren dieses Verfahren durch effiziente Ausnutzung vorhandener
 Hardware (insbesondere GPUs) und erfreuen sich daher
 gro{\ss}er Beliebtheit.
 
-\subsubsection{Convolutional Neural Networks}
+\subsection{Convolutional Neural Networks}
 
 Convolutional Neural Networks (im folgenden \textbf{CNN}) sind eine
 spezielle Art von neuronalen feed-forward Netzen, die sich besonders f\"ur den
@@ -385,8 +382,3 @@ dann auch mehrere Ausgabematrizen, die dann \"ubereinander geschichtet
 werden k\"onnen (man erh\"alt also einen Ausgabe\textbf{tensor}).
 Die Anzahl der Kernel einer Faltungsschicht ist ebenfalls
 ein Hyperparameter.
-
-
-\subsection{OpenCV}
-
-\subsection{Tesseract}
