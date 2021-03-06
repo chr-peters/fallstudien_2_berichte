@@ -387,14 +387,15 @@ ein Hyperparameter.
 
 Zwei weitere Arten von Schichten, die oft in CNNs zum Einsatz kommen und
 auch in diesem Projekt angewendet wurden, sind Pooling und Upsampling
-Schichten. Beide sollen hier nur ganz kurz umrissen werden.
+Schichten. Beide sind in Abbildung~\ref{fig:pooling} schematisch
+dargestellt.
 
 \begin{figure}[h]
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{abbildungen/pooling}
-        \subcaption{Pooling}
+        \subcaption{Max-Pooling}
     \end{subfigure}
     \unskip\ \vrule\
     \begin{subfigure}{0.45\textwidth}
@@ -406,3 +407,25 @@ Schichten. Beide sollen hier nur ganz kurz umrissen werden.
         Eingabe, die Upsampling Schicht (rechts) bewirkt das Gegenteil.}
     \label{fig:pooling}
 \end{figure}
+
+Die Aufgabe von Pooling Schichten innerhalb eines CNN ist es, die
+dimensionalit\"at ihrer Eingabe zu verringern. Pooling Schichten verf\"ugen
+\"uber keine trainierbaren Parameter.
+\"Ahnlich zu Faltungsschichten basieren auch Pooling Schichten auf
+einem Kernel, der \"uber die Eingabe f\"ahrt. Der Unterschied ist aber,
+dass der Kernel keine gewichtete Summe berechnet, sondern lediglich
+das Maximum zur\"uckgibt.\footnote{In diesem Fall spricht man auch von
+    Max-Pooling. Bei einer anderen Variante, dem Average-Pooling, wird die
+    Eingabe des Kernels auf den Durchschnitt reduziert.}
+Au{\ss}erdem ist es im Falle von Pooling \"ublich, dass der Kernel
+gr\"o{\ss}ere Schritte zur\"ucklegt. Im Beispiel von
+Abbildung~\ref{fig:pooling} ist die Kernel-Gr\"o{\ss}e 2x2 und die
+Schrittweite 2. So wird die Eingabe von 4x4 auf 2x2 reduziert, die
+Dimensionalit\"at wird also halbiert.
+
+Upsampling Schichten sind in gewisser Weise die Gegenspieler von
+Pooling Schichten, da sie die Dimensionalit\"at ihrer Eingabe
+k\"unstlich vergr\"o{\ss}ern, indem sie jeweils Zeilen und
+Spalten vervielfachen (in Abbildung~\ref{fig:pooling} werden sowohl
+Zeilen als auch Spalten verdoppelt).
+Auch Upsampling Schichten haben keine trainierbaren Parameter.
