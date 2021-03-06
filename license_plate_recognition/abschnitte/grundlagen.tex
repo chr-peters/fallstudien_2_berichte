@@ -382,3 +382,27 @@ dann auch mehrere Ausgabematrizen, die dann \"ubereinander geschichtet
 werden k\"onnen (man erh\"alt also einen Ausgabe\textbf{tensor}).
 Die Anzahl der Kernel einer Faltungsschicht ist ebenfalls
 ein Hyperparameter.
+
+\paragraph{Pooling und Upsampling Schichten}
+
+Zwei weitere Arten von Schichten, die oft in CNNs zum Einsatz kommen und
+auch in diesem Projekt angewendet wurden, sind Pooling und Upsampling
+Schichten. Beide sollen hier nur ganz kurz umrissen werden.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/pooling}
+        \subcaption{Pooling}
+    \end{subfigure}
+    \unskip\ \vrule\
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/upsampling}
+        \subcaption{Upsampling}
+    \end{subfigure}
+    \caption{Die Pooling Schicht (links) reduziert die Dimension ihrer
+        Eingabe, die Upsampling Schicht (rechts) bewirkt das Gegenteil.}
+    \label{fig:pooling}
+\end{figure}
