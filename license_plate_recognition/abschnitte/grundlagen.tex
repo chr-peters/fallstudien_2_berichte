@@ -118,6 +118,7 @@ Wie genau die Schichten eines neuronalen Netzwerkes nun aussehen k\"onnen,
 soll im n\"achsten Abschnitt etwas detaillierter beschrieben werden.
 
 \subsubsection{Schichten}
+\label{sec:schichten}
 
 Eine Schicht eines neuronalen Netzes ist eine Funktion $f$, die eine
 Eingabe $x \in \mathbb{R}^n$ auf eine Ausgabe $f(x) \in \mathbb{R}^m$
@@ -347,6 +348,44 @@ Fachliteratur wie~\cite{Goodfellow-et-al-2016} verwiesen.
     \caption{Schematische Darstellung einer Faltungsschicht}
     \label{fig:faltungsschicht}
 \end{figure}
+
+Eine schematische Darstellung einer Faltunsschicht ist in
+Abbildung~\ref{fig:faltungsschicht} gegeben.
+Der erste Unterschied zur bereits in~\ref{sec:schichten} beschriebenen
+dense Schicht ist, dass die Eingabe eine zweidimensionale Struktur
+aufweist, wie es beispielsweise bei (schwarz-wei{\ss}en) Bilddaten der Fall ist.
+Zur formalen Beschreibung solcher Daten k\"onnen beispielsweise anstelle
+von Vektoren Matrizen zum Einsatz kommen. In Abbildung~\ref{fig:faltungsschicht}
+w\"urde dann jeder Punkt im linken Gitter einem Eintrag aus der Eingabematrix der
+Schicht entsprechen.\footnote{In der Praxis wird dieses Konzept h\"aufig auf
+    mehr als zwei Dimensionen verallgemeinert. Dies ist insbesondere
+    dann n\"otig, wenn man es beispielsweise mit Farbbildern zu tun hat,
+    die f\"ur jeden Pixel drei Farbwerte speichern. In diesem Fall spricht man
+    dann nicht mehr von Matrizen, sondern von \textbf{Tensoren}.}
+
+Die Faltungsoperation auf einer solchen Eingabe kann man sich nun so
+vorstellen, dass eine Art Fenster (auch \textbf{Kernel} genannt)
+Schritt f\"ur Schritt \"uber die Eingabe f\"ahrt und dabei eine gewichtete
+Summe berechnet. In Abbildung~\ref{fig:faltungsschicht} hat dieses Fenster
+die Gr\"o{\ss}e 3x3, die gewichtete Summe wird durch die blauen Pfeile
+symbolisiert. Analog zur dense Schicht wird zudem auf jedes Ergebnis
+der gewichteten Summe ein Bias aufaddiert. Im Anschluss wird auch bei
+Faltunsschichten auf die Ausgabe eine (meist elementweise)
+Aktivierungsfunktion angewendet.
+
+Die Gewichte des Kernels zusammen mit dem Bias und der
+Aktivierungsfunktion sind die trainierbaren
+Parameter einer Faltungsschicht. Die Kernel-Gr\"o{\ss}e, sowie die
+Schrittweite, mit welcher der Kernel \"uber die Eingabe f\"ahrt,
+sind Hyperparameter, die vom Anwender vor dem Training spezifiziert werden
+m\"ussen.
+Es ist dar\"uber hinaus bei Faltungsschichten auch \"ublich, gleich
+mehrere Kernel gleichzeitig einzusetzen. Auf diese Weise erh\"alt man
+dann auch mehrere Ausgabematrizen, die dann \"ubereinander geschichtet
+werden k\"onnen (man erh\"alt also einen Ausgabe\textbf{tensor}).
+Die Anzahl der Kernel einer Faltungsschicht ist ebenfalls
+ein Hyperparameter.
+
 
 \subsection{OpenCV}
 
