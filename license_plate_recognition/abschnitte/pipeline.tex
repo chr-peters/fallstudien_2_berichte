@@ -20,7 +20,7 @@ beschrieben.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/pipeline}
-    \caption{Schematische Darstellung der zweistufigen Vorhersagepipeline.
+    \caption[Pipeline]{Schematische Darstellung der zweistufigen Vorhersagepipeline.
         Zun\"achst wird das Nummernschild mithilfe von Bildsegmentierung
         extrahiert. Anschlie{\ss}end werden die Zeichen durch Texterkennung
         ausgelesen.}
@@ -56,7 +56,7 @@ Abbildung~\ref{fig:binaere-maske} gegeben.
         \includegraphics[width=\textwidth]{abbildungen/segmentation_output}
         \caption{Bin\"are Maske des Nummernschildes.}
     \end{subfigure}
-    \caption{Die bin\"are Maske (rechts) ordnet jedem Pixel der Eingabe
+    \caption[Bin\"are Maske]{Die bin\"are Maske (rechts) ordnet jedem Pixel der Eingabe
         (links) einen Wert 1 (hier wei{\ss} dargestellt) zu, falls sich dieser
         im Nummernschild befindet. Andernfalls wird ein Wert von 0 (schwarz)
         zugeordnet.}
@@ -95,7 +95,7 @@ Parameter k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/network_architecture}
-    \caption{Schematische Darstellung der gew\"ahlten Netzarchitektur
+    \caption[Netzarchitektur]{Schematische Darstellung der gew\"ahlten Netzarchitektur
         zur Bildsegmentierung.}
     \label{fig:netzarchitektur}
 \end{figure}
@@ -219,7 +219,7 @@ den weiteren Einsatz in der Pipeline ausgew\"ahlt.
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{abbildungen/training_plot}
-    \caption{Wert der logistischen Verlustfunktion f\"ur Trainings- und Validierungsdatensatz
+    \caption[Trainings- und Validierungsverlust]{Wert der logistischen Verlustfunktion f\"ur Trainings- und Validierungsdatensatz
         innerhalb der ersten 15 Epochen.}
     \label{fig:training-loss}
 \end{figure}
@@ -253,7 +253,7 @@ dargestellt.
         \includegraphics[width=\textwidth]{abbildungen/verarbeitung_4}
         \caption{Ergebnis}
     \end{subfigure}
-    \caption{Verarbeitung der Modellvorhersage zur Extraktion des
+    \caption[Verarbeitung der Modellvorhersage]{Verarbeitung der Modellvorhersage zur Extraktion des
         Nummernschildes. Das hier gezeigte Bild wurde weder zum Training
         noch zur Validierung w\"ahrend des Trainings verwendet.}
     \label{fig:verarbeitung}
