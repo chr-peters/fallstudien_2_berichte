@@ -197,5 +197,60 @@ Trainingsbilder zuf\"allig ver\"andert:
 Durch das wiederholte Anwenden dieser Methoden konnte der urspr\"ungliche
 Trainingsdatensatz von 949 Bildern auf 22776 Bilder vergr\"o{\ss}ert werden.
 
+Als Validierungsdatensatz, der w\"ahrend des Trainings beobachtet wurde,
+um Overfitting zu vermeiden, wurden 20 Bilder per Hand ausgew\"ahlt.
+Der Wert der Verlustfunktion w\"ahrend der ersten 15 Epochen des Trainings ist in
+Abbildung~\ref{fig:training-loss} zu sehen.
+Eine Epoche bedeutet, dass jedes Bild im Datensatz einmal f\"ur einen
+Gradientenschritt verwendet wurde.
+
+Als Verlustfunktion wurde hier nicht der in~\ref{sec:training} beschriebene
+mittlere quadratische Verlust verwendet, sondern analog zu~\cite{image-segmentation}
+die logistische Verlustfunktion (welche auch bei der logistischen Regression zum Einsatz kommt).
+Dies hat den Grund, dass diese Verlustfunktion wesentlich besser im
+hier vorliegenden Szenario der bin\"aren Klassifikation geeignet ist.
+
+Das Training wurde dann solange durchgef\"uhrt, bis sich der Verlust auf den
+20 Validierungsbildern nicht mehr verbessert hat. Man bezeichnet diese
+Technik auch als \textbf{early stopping}~\cite{Goodfellow-et-al-2016}.
+Das Modell mit dem niedrigsten Validierungs-Verlust wurde dann f\"ur
+den weiteren Einsatz in der Pipeline ausgew\"ahlt.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{abbildungen/training_plot}
+    \caption{Wert der logistischen Verlustfunktion f\"ur Trainings- und Validierungsdatensatz
+        innerhalb der ersten 15 Epochen.}
+    \label{fig:training-loss}
+\end{figure}
+
+\subsubsection{Verarbeitung der Modellvorhersagen}
+
+\begin{figure}
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/verarbeitung_1}
+        \caption{Modellvorhersage}
+    \end{subfigure}
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/verarbeitung_2}
+        \caption{Schwellenwert}
+    \end{subfigure}
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/verarbeitung_3}
+        \caption{Umschlie{\ss}endes Rechteck}
+    \end{subfigure}
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/verarbeitung_4}
+        \caption{Ergebnis}
+    \end{subfigure}
+    \caption{Verarbeitung der Modellvorhersage zur Extraktion des
+        Nummernschildes. Das hier gezeigte Bild wurde weder zum Training
+        noch zur Validierung w\"ahrend des Trainings verwendet.}
+\end{figure}
+
 \subsection{Texterkennung}
 \label{sec:texterkennung}
