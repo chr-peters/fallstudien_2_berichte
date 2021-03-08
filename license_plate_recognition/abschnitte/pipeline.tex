@@ -226,6 +226,12 @@ den weiteren Einsatz in der Pipeline ausgew\"ahlt.
 
 \subsubsection{Verarbeitung der Modellvorhersagen}
 
+Um das Modell in der Pipeline einsetzen zu k\"onnen, muss aus den
+Modellvorhersagen noch der Bereich extrahiert werden, welcher das
+Nummernschild enth\"alt. Die hierzu eingesetzte Vorgehensweise
+ist in Abbildung~\ref{fig:verarbeitung} anhand eines Beispielbildes
+dargestellt.
+
 \begin{figure}
     \begin{subfigure}{0.495\textwidth}
         \centering
@@ -250,7 +256,38 @@ den weiteren Einsatz in der Pipeline ausgew\"ahlt.
     \caption{Verarbeitung der Modellvorhersage zur Extraktion des
         Nummernschildes. Das hier gezeigte Bild wurde weder zum Training
         noch zur Validierung w\"ahrend des Trainings verwendet.}
+    \label{fig:verarbeitung}
 \end{figure}
+
+Der erste Schritt besteht darin, die Vorhersagen des Modells in eine
+bin\"are Maske umzuwandeln, welche nur die Werte 1 und 0 enth\"alt
+(1 f\"ur Pixel im Nummernschild, 0 f\"ur den Rest).
+Da die Ausgabeschicht des eingesetzten Modells aufgrund der
+Sigmoid-Funktion Werte im Intervall $[0, 1]$ ausgibt, wird
+zu diesem Zweck (analog zur logistischen Regression)
+ein Schwellenwertverfahren eingesetzt.
+Hat ein Pixel in der Modellvorhersage einen Wert gr\"o{\ss}er als
+0,5, so wird dieser in der bin\"aren Maske auf 1 gesetzt, alle
+anderen Ausgaben werden auf 0 gesetzt.
+
+Anschlie{\ss}end wird anhand der bin\"aren Maske ein rechteckiger
+Ausschnitt bestimmt, in welchem das Nummernschild vermutet wird.
+Dies geschieht so, dass zun\"achst f\"ur jeden zusammenh\"angenden
+Bereich aus Einsen ein parallel zu den Koordinatenachsen
+verlaufendes umschlie{\ss}endes Rechteck bestimmt wird.
+Das fl\"achenm\"a{\ss}ig gr\"o{\ss}te dieser Rechtecke wird dann in
+der Pipeline zur Extraktion des Nummernschildes verwendet.
+
+Man beachte, dass hier implizit angenommen wird, dass sich
+Nummernschilder stets durch ein parallel zur x- und y-Achse
+verlaufendes Rechteck beschreiben lassen.
+M\"ogliche Probleme mit diesem Ansatz, wie beispielsweise
+rotierte Nummernschilder, liegen auf der Hand und werden sp\"ater
+in Abschnitt~\ref{sec:ergebnisse} diskutiert.
+Dennoch ist ein Vorteil dieses Ansatzes, dass er sehr leicht
+umzusetzen ist und trotzdem, wie wir sp\"ater in
+Abschnitt~\ref{sec:ergebnisse} sehen werden, zu guten Ergebnissen
+f\"uhren kann.
 
 \subsection{Texterkennung}
 \label{sec:texterkennung}
