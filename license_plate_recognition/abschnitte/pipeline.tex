@@ -68,6 +68,10 @@ die bereits in Abschnitt~\ref{sec:cnns} beschrieben wurden.
 Auf die genaue Architektur und die Funktionsweise von CNNs bez\"uglich
 Klassifikation soll nun genauer eingegangen werden.
 
+Der Ansatz, CNNs zur Bildsegmentierung zu verwenden, geht
+auf~\cite{image-segmentation} zur\"uck und wurde hier f\"ur die
+vorliegende Problemstellung adaptiert.
+
 \subsubsection{Nummernschildextraktion mit CNNs}
 
 Wie schon in Abschnitt~\ref{sec:neuronale-netze} erl\"autert, ordnen
@@ -82,12 +86,11 @@ m\"ussen die Bilder vor der Eingabe in das neuronale Netz
 zun\"achst auf eine einheitliche Gr\"o{\ss}e gebracht werden.
 In diesem Projekt wird zu diesem Zweck jedes Bild vor der Eingabe
 in das Netz auf eine Gr\"o{\ss}e von 400x400 skaliert.
-Die insgesamt bei diesem Projekt zum Einsatz kommende Architektur des
-neuronalen Netzes wird nun kurz beschrieben.
 
-Eine schematische \"Ubersicht der Netzarchitekturist in
-Abbildung~\ref{fig:netzarchitektur} gegeben. Die Details zu jeder
-Schicht sind in Tabelle~\ref{tab:netzarchitektur} aufgef\"uhrt.
+Die komplette Netzarchitektur, die in diesem Projekt zum Einsatz kam,
+ist in Abbildung~\ref{fig:netzarchitektur} schematisch dargestellt.
+Genaue Details zu jeder Schicht, sowie die Anzahl der trainierbaren
+Parameter k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
 
 \begin{figure}[h]
     \centering
@@ -99,7 +102,8 @@ Schicht sind in Tabelle~\ref{tab:netzarchitektur} aufgef\"uhrt.
 
 \begin{table}
     \centering
-    \caption{Die eingesetzte Netzarchitektur.}
+    \caption{Die eingesetzte Netzarchitektur. Insgesamt enth\"alt sie
+        191297 trainierbare Parameter.}
     \label{tab:netzarchitektur}
     \begin{tabular}{|l|l|l|}
         \hline
