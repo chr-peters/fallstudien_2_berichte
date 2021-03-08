@@ -168,7 +168,7 @@ Parameter k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
 
         \hline
 
-        Faltungsschicht, 1 3x3 Kernel, Sigmoid & 400x400x1                   & 9                         \\
+        Faltungsschicht, 1 1x1 Kernel, Sigmoid & 400x400x1                   & 9                         \\
 
         \hline
     \end{tabular}
@@ -295,7 +295,26 @@ f\"uhren kann.
 Das Auslesen der Zeichen des Nummernschildes aus dem zuvor mithilfe des
 CNN extrahierten Ausschnitt wurde mithilfe der
 Optical Character Recognition (im Folgenden OCR) Software
-Tesseract~\cite{tesseract} durchgef\"uhrt.
+Tesseract~\cite{tesseract} realisiert.
+
+Damit Tesseract optimal arbeiten kann, werden zun\"achst
+einige Vorverarbeitungsschritte durchgef\"uhrt, die in
+Abbildung~\ref{fig:license-plate-preprocessing} dargestellt sind.
+Hierbei wurde das Bild zun\"achst in Graustufen umgewandelt und
+mit einem Weichzeichner gegl\"attet, um kleinere Unregelm\"a{\ss}igkeiten
+und Bildrauschen zu entfernen.
+Anschlie{\ss}end wurde auch hier ein Schwellenwertverfahren
+eingesetzt, um die Zeichen klarer vom Hintergrund abzugrenzen.
+Zur Bestimmung des Schwellenwertes kam Otsu's Methode~\cite{otsu} zum Einsatz,
+die extra f\"ur eine
+m\"oglichst klare Trennung von Vorder- und Hintergrund
+entwickelt wurde. Im n\"achsten Schritt wurde das Bild dann
+invertiert (Einsen wurden auf Nullen gesetzt und umgekehrt), um dann
+die wei{\ss}en Bereiche, welche auch die zu erkennenden Zeichen
+enthalten, zu erweitern (man spricht auch von Dilatation).
+S\"amtliche dieser Schritte wurden mithilfe der
+Computervision-Programmbibliothek OpenCV~\cite{opencv_library}
+durchgef\"uhrt.
 
 \begin{figure}
     \centering
@@ -308,6 +327,15 @@ Tesseract~\cite{tesseract} durchgef\"uhrt.
     (4) Dilatation}
     \label{fig:license-plate-preprocessing}
 \end{figure}
+
+F\"ur den Einsatz von Tesseract m\"ussen im n\"achsten Schritt noch die
+einzelnen Zeichen ausgeschnitten werden.
+Dies wurde mithilfe der automatisierten Konturenfindung
+von OpenCV umgesetzt.
+Die darauf folgenden Schritte der Pipeline sind in
+Abbildung~\ref{fig:character-preprocessing} aufgef\"uhrt.
+Die ausgeschnittenen Zeichen werden invertiert und anschlie{\ss}end
+durch Tesseract erkannt.
 
 \begin{figure}
     \centering
