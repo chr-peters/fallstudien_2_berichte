@@ -30,6 +30,45 @@ beschrieben.
 \subsection{Bildsegmentierung}
 \label{sec:bildsegmentierung}
 
+Das Ziel einer Bildsegmentierung ist es, die relevanten Bereiche eines
+Bildes von den restlichen zu trennen.
+In dieser Situation ist es also gefordert, den Bereich des Bildes,
+welcher das Nummernschild enth\"alt, vom Rest des Bildes zu trennen.
+
+Zu diesem Zweck kommt in diesem Projekt eine bin\"are Klassifikation
+zum Einsatz: F\"ur jeden Pixel des Eingabebildes wird klassifiziert,
+ob er Teil des Nummernschildes ist, oder nicht.
+Das Ziel ist es also, f\"ur ein Eingabebild eine bin\"are Maske vorherzusagen,
+welche f\"ur jeden Pixel eine 1 enth\"alt, falls er Teil des Nummernschildes
+ist und anderenfalls eine 0.
+Eine visuelle Darstellung dieses Konzeptes ist in
+Abbildung~\ref{fig:binaere-maske} gegeben.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/segmentation_input}
+        \caption{Eingabebild}
+    \end{subfigure}
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{abbildungen/segmentation_output}
+        \caption{Bin\"are Maske des Nummernschildes.}
+    \end{subfigure}
+    \caption{Die bin\"are Maske (rechts) ordnet jedem Pixel der Eingabe
+        (links) einen Wert 1 (hier wei{\ss} dargestellt) zu, falls sich dieser
+        im Nummernschild befindet. Andernfalls wird ein Wert von 0 (schwarz)
+        zugeordnet.}
+    \label{fig:binaere-maske}
+\end{figure}
+
+Als Klassifikationsverfahren kommen zu diesem Zweck CNNs zum Einsatz,
+die bereits in Abschnitt~\ref{sec:cnns} beschrieben wurden.
+Auf die genaue Architektur und die Funktionsweise von CNNs bez\"uglich
+Klassifikation soll nun genauer eingegangen werden.
+
+\subsubsection{Nummernschildextraktion mit CNNs}
 
 \subsection{Texterkennung}
 \label{sec:texterkennung}
