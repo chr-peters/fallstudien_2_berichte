@@ -291,3 +291,29 @@ f\"uhren kann.
 
 \subsection{Texterkennung}
 \label{sec:texterkennung}
+
+Das Auslesen der Zeichen des Nummernschildes aus dem zuvor mithilfe des
+CNN extrahierten Ausschnitt wurde mithilfe der
+Optical Character Recognition (im Folgenden OCR) Software
+Tesseract~\cite{tesseract} durchgef\"uhrt.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.35\textwidth]{abbildungen/license_plate_preprocessing}
+    \caption[Vorverarbeitung eines Nummernschildes]{Die Vorverarbeitungsschritte
+    eines Nummernschildes von oben nach unten aufgef\"uhrt:
+    (1) Vergr\"o{\ss}erung und Umwandlung in Graustufen,
+    (2) Bildgl\"attung,
+    (3) Schwellenwert und Invertierung,
+    (4) Dilatation}
+    \label{fig:license-plate-preprocessing}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{abbildungen/character_preprocessing}
+    \caption[Vorverarbeitung der einzelnen Zeichen]{Die ausgeschnittenen
+        Zeichen werden wieder invertiert und dann durch
+        Tesseract erkannt.}
+    \label{fig:character-preprocessing}
+\end{figure}
