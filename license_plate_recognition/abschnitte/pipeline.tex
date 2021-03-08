@@ -17,7 +17,7 @@ Texterkennung angewendet, um die Zeichenfolge des Nummernschildes
 zu extrahieren. Dieses Verfahren wird in Abschnitt~\ref{sec:texterkennung}
 beschrieben.
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/pipeline}
     \caption{Schematische Darstellung der zweistufigen Vorhersagepipeline.
@@ -44,7 +44,7 @@ ist und anderenfalls eine 0.
 Eine visuelle Darstellung dieses Konzeptes ist in
 Abbildung~\ref{fig:binaere-maske} gegeben.
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{subfigure}{0.495\textwidth}
         \centering
@@ -65,14 +65,14 @@ Abbildung~\ref{fig:binaere-maske} gegeben.
 
 Als Klassifikationsverfahren kommen zu diesem Zweck CNNs zum Einsatz,
 die bereits in Abschnitt~\ref{sec:cnns} beschrieben wurden.
-Auf die genaue Architektur und die Funktionsweise von CNNs bez\"uglich
-Klassifikation soll nun genauer eingegangen werden.
+Auf die genaue Architektur und das Training des Netzes soll nun genauer
+eingegangen werden.
 
 Der Ansatz, CNNs zur Bildsegmentierung zu verwenden, geht
 auf~\cite{image-segmentation} zur\"uck und wurde hier f\"ur die
 vorliegende Problemstellung adaptiert.
 
-\subsubsection{Nummernschildextraktion mit CNNs}
+\subsubsection{Netzarchitektur}
 
 Wie schon in Abschnitt~\ref{sec:neuronale-netze} erl\"autert, ordnen
 neuronale Netze einer Eingabe fester Gr\"o{\ss}e eine zugeh\"orige
@@ -92,7 +92,7 @@ ist in Abbildung~\ref{fig:netzarchitektur} schematisch dargestellt.
 Genaue Details zu jeder Schicht, sowie die Anzahl der trainierbaren
 Parameter k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/network_architecture}
     \caption{Schematische Darstellung der gew\"ahlten Netzarchitektur
@@ -108,71 +108,94 @@ Parameter k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
     \begin{tabular}{|l|l|l|}
         \hline
 
-        \textbf{Schicht}                      & \textbf{Ausgabegr\"o{\ss}e} & \textbf{Anzahl Parameter} \\
+        \textbf{Schicht}                       & \textbf{Ausgabegr\"o{\ss}e} & \textbf{Anzahl Parameter} \\
 
         \hline
 
-        Eingabe                               & 400x400x3                   & 0                         \\
+        Eingabe                                & 400x400x3                   & 0                         \\
 
         \hline
 
-        Faltungsschicht, 32 3x3 Kernel, ReLU  & 400x400x32                  & 896                       \\
+        Faltungsschicht, 32 3x3 Kernel, ReLU   & 400x400x32                  & 896                       \\
 
         \hline
 
-        Max-Pooling, 4x4 Kernel               & 100x100x32                  & 0                         \\
+        Max-Pooling, 4x4 Kernel                & 100x100x32                  & 0                         \\
 
         \hline
 
-        Faltungsschicht, 64 3x3 Kernel, ReLU  & 100x100x64                  & 18496                     \\
+        Faltungsschicht, 64 3x3 Kernel, ReLU   & 100x100x64                  & 18496                     \\
 
         \hline
 
-        Max-Pooling, 4x4 Kernel               & 25x25x64                    & 0                         \\
+        Max-Pooling, 4x4 Kernel                & 25x25x64                    & 0                         \\
 
         \hline
 
-        Faltungsschicht, 128 3x3 Kernel, ReLU & 25x25x128                   & 73856                     \\
+        Faltungsschicht, 128 3x3 Kernel, ReLU  & 25x25x128                   & 73856                     \\
 
         \hline
 
-        Upsampling                            & 50x50x128                   & 0                         \\
+        Upsampling                             & 50x50x128                   & 0                         \\
 
         \hline
 
-        Faltungsschicht, 64 3x3 Kernel, ReLU  & 50x50x64                    & 73792                     \\
+        Faltungsschicht, 64 3x3 Kernel, ReLU   & 50x50x64                    & 73792                     \\
 
         \hline
 
-        Upsampling                            & 100x100x64                  & 0                         \\
+        Upsampling                             & 100x100x64                  & 0                         \\
 
         \hline
 
-        Faltungsschicht, 32 3x3 Kernel, ReLU  & 100x100x32                  & 18464                     \\
+        Faltungsschicht, 32 3x3 Kernel, ReLU   & 100x100x32                  & 18464                     \\
 
         \hline
 
-        Upsampling                            & 200x200x32                  & 0                         \\
+        Upsampling                             & 200x200x32                  & 0                         \\
 
         \hline
 
-        Faltungsschicht, 16 3x3 Kernel, ReLU  & 200x200x16                  & 4624                      \\
+        Faltungsschicht, 16 3x3 Kernel, ReLU   & 200x200x16                  & 4624                      \\
 
         \hline
 
-        Upsampling                            & 400x400x16                  & 0                         \\
+        Upsampling                             & 400x400x16                  & 0                         \\
 
         \hline
 
-        Faltungsschicht, 8 3x3 Kernel, ReLU   & 400x400x8                   & 1160                      \\
+        Faltungsschicht, 8 3x3 Kernel, ReLU    & 400x400x8                   & 1160                      \\
 
         \hline
 
-        Faltungsschicht, 1 3x3 Kernel, ReLU   & 400x400x1                   & 9                         \\
+        Faltungsschicht, 1 3x3 Kernel, Sigmoid & 400x400x1                   & 9                         \\
 
         \hline
     \end{tabular}
 \end{table}
+
+\subsubsection{Training}
+
+Die vorgestellte Netzarchitektur wurde mithilfe der
+Programmbibliothek Tensorflow~\cite{tensorflow2015-whitepaper}
+implementiert,
+das Training wurde auf einer GPU von Google
+Colab\footnote{\url{https://colab.research.google.com/}} in der Cloud
+durchgef\"uhrt.
+Als Optimierungsalgorithmus kam ADAM~\cite{adam},
+eine Variante des stochastischen Gradientenabstiegs zum Einsatz.
+
+Vor dem Training wurde der Datensatz durch sogenanntes Data Augmentation
+vergr\"o{\ss}ert. Hierbei wurden verschiedene Eigenschaften der
+Trainingsbilder zuf\"allig ver\"andert:
+\begin{itemize}
+    \item Die Bilder wurden horizontal gespiegelt
+    \item Aus jedem Bild wurden zuf\"allige Ausschnitte herausgetrennt (random cropping)
+    \item Der Kontrast der Bilder wurde zuf\"allig ver\"andert
+    \item Die Helligkeit der Bilder wurde zuf\"allig ver\"andert
+\end{itemize}
+Durch das wiederholte Anwenden dieser Methoden konnte der Urspr\"ungliche
+Trainingsdatensatz von 949 Bildern auf 22776 Bilder vergr\"o{\ss}ert werden.
 
 \subsection{Texterkennung}
 \label{sec:texterkennung}
