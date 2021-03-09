@@ -226,6 +226,9 @@ eine Variante des stochastischen Gradientenabstiegs zum Einsatz.
 Die Initialisierung der Parameter wurde mit der schon in
 Abschnitt~\ref{sec:training} kurz beschriebenen Glorot-Initialisierung
 durchgef\"uhrt.
+Als Verlustfunktion wurde hier analog zu~\cite{image-segmentation} aufgrund
+des Szenarios der bin\"aren Klassifikation f\"ur jeden Pixel
+ebenfalls die logistische Verlustfunktion eingesetzt.
 
 Vor dem Training wurde der Datensatz aufgrund der vergleichsweise
 geringen Anzahl an Trainingsbildern durch sogenanntes Data Augmentation
@@ -243,14 +246,14 @@ Trainingsdatensatz von 949 Bildern auf 22776 Bilder vergr\"o{\ss}ert werden.
 Als Validierungs-Datensatz, der w\"ahrend des Trainings beobachtet wurde,
 wurden schon vor der Data-Augmentation 20 Bilder per Hand ausgew\"ahlt,
 die m\"oglichst viele der verschiedenen Szenarien abdecken sollten.
+Auf diese Weise war es auch m\"oglich, verschiedene Architekturen
+anhand ihrer Ergebnisse auf diesen handselektierten Bildern
+miteinander zu vergleichen.
+
 Der Wert der Verlustfunktion w\"ahrend der ersten 15 Epochen des Trainings ist in
 Abbildung~\ref{fig:training-loss} zu sehen.
 Eine Epoche bedeutet, dass jedes Bild im Datensatz einmal f\"ur einen
 Gradientenschritt verwendet wurde.
-Als Verlustfunktion wurde hier analog zu~\cite{image-segmentation} aufgrund
-des Szenarios der bin\"aren Klassifikation f\"ur jeden Pixel
-ebenfalls die logistische Verlustfunktion eingesetzt.
-
 Das Training wurde dann solange durchgef\"uhrt, bis sich der Verlust auf den
 20 Validierungsbildern nicht mehr verbessert hat. Man bezeichnet diese
 Technik auch als \textbf{early stopping}~\cite{Goodfellow-et-al-2016}.
@@ -304,7 +307,7 @@ Der erste Schritt besteht darin, die Vorhersagen des Modells in eine
 bin\"are Maske umzuwandeln, welche nur die Werte 1 und 0 enth\"alt
 (1 f\"ur Pixel im Nummernschild, 0 f\"ur den Rest).
 Da die Ausgabeschicht des eingesetzten Modells aufgrund der
-Sigmoid-Funktion Werte im Intervall $[0, 1]$ ausgibt, wird
+Sigmoid-Funktion Werte im Intervall $(0, 1)$ ausgibt, wird
 zu diesem Zweck (analog zur logistischen Regression)
 ein Schwellenwertverfahren eingesetzt.
 Hat ein Pixel in der Modellvorhersage einen Wert gr\"o{\ss}er als
@@ -316,7 +319,7 @@ Ausschnitt bestimmt, in welchem das Nummernschild vermutet wird.
 Dies geschieht so, dass zun\"achst f\"ur jeden zusammenh\"angenden
 Bereich aus Einsen ein parallel zu den Koordinatenachsen
 verlaufendes umschlie{\ss}endes Rechteck bestimmt wird.
-Das fl\"achenm\"a{\ss}ig gr\"o{\ss}te dieser Rechtecke wird dann in
+Das fl\"achenm\"a{\ss}ig Gr\"o{\ss}te dieser Rechtecke wird dann in
 der Pipeline zur Extraktion des Nummernschildes verwendet.
 
 Man beachte, dass hier implizit angenommen wird, dass sich

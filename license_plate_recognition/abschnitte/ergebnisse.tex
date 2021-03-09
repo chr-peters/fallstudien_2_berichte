@@ -76,9 +76,9 @@ nicht zutrifft, kann also anhand der hier vorgenommenen Betrachtung
 keine Aussage getroffen werden.
 
 Was den zweiten Teil der Pipeline, also die Texterkennung angeht, so
-fallen leider teils eklatante M\"angel ins Auge.
-Lediglich bei einem einzigen Bild (Bild (a)) wurde das Nummernschild
-korrekt ausgelesen. Ansonsten sind die Vorhersagen von vielen
+fallen leider ein paar kleinere M\"angel ins Auge.
+Lediglich bei Bild (a) wurde das Nummernschild
+korrekt ausgelesen. Ansonsten sind die Vorhersagen von einigen kleinen
 Schwachstellen gepr\"agt.
 Ein Fehler, der h\"aufig vorkommt, ist das scheinbar
 willk\"urliche Verdoppeln gelesener Zeichen, wie es beispielsweise
@@ -90,17 +90,17 @@ richtig ausgelesen wurde, kein einziges Zeichen erkannt.
 
 Es l\"asst sich insgesamt also erkennen, dass die Texterkennung
 der aktuelle Problempunkt in der Pipeline ist.
-Im folgenden sind ein paar Ideen aufgef\"uhrt, wie dieser Teil
-der Pipeline in Zukunft verbessert werden k\"onnte.
+Im Folgenden sind daher einige Ideen aufgef\"uhrt, wie dieser Teil
+der Pipeline in Zukunft noch verbessert werden kann.
 
 \subsection{Ideen zur Verbesserung der Texterkennung}
 \label{sec:verbesserungen}
 
 \paragraph{Framework zur iterativen Verbesserung}
 
-Bevor konkrete Verbesserungsans\"atze eingebracht werden k\"onnen bedarf
+Bevor konkrete Verbesserungsans\"atze eingebracht werden k\"onnen, bedarf
 es zun\"achst eines Frameworks, also einer allgemeinen Vorgehensweise,
-wie zielgerichtet gearbeitet werden kann, um die Pipeline zu verbessern.
+wie zielgerichtet auf eine Verbesserung der Pipeline hingearbeitet werden kann.
 Ein m\"oglicher Ansatz ist es, sich zuerst auf eine Metrik festzulegen,
 die die Qualit\"at
 der Pipeline beschreibt und dann anhand dieser Metrik m\"ogliche
