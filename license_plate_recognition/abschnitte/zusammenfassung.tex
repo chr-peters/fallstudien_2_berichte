@@ -19,19 +19,41 @@ noch zum early stopping verwendet wurden, konnte jedes der Nummernschilder
 korrekt vom CNN erkannt werden. Selbst schwierige Lichtverh\"altnisse schienen
 f\"ur das neuronale Netz kein Problem zu sein.
 
+Anhand der Beispieldaten konnten allerdings keine Aussagen bez\"uglich
+des Verhaltens auf rotierten Nummernschildern gemacht werden.
+Zu dieser Situation lassen sich aber zwei \"Uberlegungen anstellen:
+Zum einen wird durch Betrachtung der in~\ref{sec:Datenbeschreibung}
+beschriebenen Trainingsdaten klar, dass die Kameras, welche ein Nummernschild
+aufzeichnen, sehr h\"aufig so positioniert sind, dass das Nummernschild
+achsenparallel zum Bildausschnitt verl\"auft. Die Rotationen, die in der
+Praxis zu beobachten sind, scheinen also wenn \"uberhaupt nur recht
+klein auszufallen. Man k\"onnte also einerseits argumentieren, dass
+rotierte Nummernschilder in der Praxis nicht h\"aufig auftreten und dass
+kleinere Rotationen immernoch hinreichend durch ein achsenparalleles
+Rechteck erfasst werden k\"onnen.
+Andererseits ist es so, dass sich der vorliegende Ansatz der
+Berechnung eines umschlie{\ss}enden Rechtecks auch auf rotierte
+Rechtecke verallgemeinern l\"asst. Am CNN m\"usste dazu nichts ge\"andert
+werden, lediglich das Ausschneiden des Nummernschild m\"usste
+angepasst werden. Hierin best\"unde eine m\"ogliche zuk\"unftige
+Verbesserung der ersten Stufe der Pipeline.
+
 Die zweite Stufe der Pipeline, also die Zeichenerkennung aus einem
 extrahierten Nummernschild, wurde mithilfe der OCR-Software Tesseract
 unter Einsatz verschiedener Vorverarbeitungsschritte durch OpenCV realisiert.
-Die Ergebnisse dieser Zeichenerkennung waren jedoch noch nicht
-zufriedenstellend und m\"ussen verbessert werden.
+Die Ergebnisse dieser Zeichenerkennung waren jedoch nicht
+zufriedenstellend und m\"ussen noch verbessert werden.
 In Abschnitt~\ref{sec:verbesserungen} wurden hierzu drei m\"ogliche
 Ans\"atze diskutiert. Als letzter Ausweg wurde ein Wechsel der
-Technologie hin zu CNNs zur Texterkennung in Betracht gezogen, es sollte
+Technologie hin zu CNNs zur Texterkennung in Betracht gezogen, wie er
+auch in~\cite{silva2018a} zum Einsatz kam. Es sollte
 aber zun\"achst sichergestellt werden, dass die teils sehr
 fehlerbehafteten Vorhersagen der Texterkennung nicht auf eventuelle
-Implementierungsfehler zur\"uckzuf\"uhren sind.
+Implementierungsfehler zur\"uckzuf\"uhren sind, da sonst
+m\"oglicherweise noch nicht das volle Potential der Tesseract Software
+ausgenutzt wird.
 
-Abschlie{\ss}end kann man sagen, dass zumindest der erste Teil der
+Abschlie{\ss}end l\"asst sich jedoch feststellen, dass zumindest der erste Teil der
 Pipeline erfolgreich umgesetzt wurde, was ein weiterer Beleg f\"ur die
 Dominanz von CNNs im Bereich der Bildsegmentierung ist.
 Die so umgesetzte lokalisierung der Nummernschilder kann nun als solide Basis f\"ur
