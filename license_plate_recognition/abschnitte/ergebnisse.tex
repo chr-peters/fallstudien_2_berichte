@@ -121,12 +121,22 @@ Nur dann, wenn die mittlere Levenshtein-Distanz durch das Einbringen
 dieser Idee verkleinert werden konnte, wird die Idee in die Pipeline
 aufgenommen.
 
+Kurz angemerkt sei an dieser Stelle noch, dass man sich bei dieser
+Vorgehensweise m\"oglicherweise anf\"allig f\"ur Overfitting
+machen kann, da man seine Entscheidungen ma{\ss}geblich von einigen zuvor
+selektierten Bildern abh\"angig macht, auf denen die mittlere
+Levenshtein-Distanz berechnet wird.
+Dies k\"onnte aber dadurch kompensiert werden, dass man eine sehr
+vielseitige Bandbreite von Bildern zu dieser Validierung heranzieht,
+die m\"oglichst viele der denkbaren Szenarien abdecken.
+
 \paragraph{Einfache Testf\"alle als \glqq Sanity Checks\grqq{}}
 
 Anhand der Vorhersagen auf den Beispielbildern f\"allt auf, dass es
 m\"oglicherweise noch unentdeckte Fehler bei der Implementierung der
 Texterkennung geben k\"onnte. Insbesondere das h\"aufige doppelte Erkennen
-von Zeichen einerseits, sowie das h\"aufige Auslassen von Zeichen andererseits
+von Zeichen einerseits, sowie das h\"aufige Auslassen von Zeichen
+andererseits,
 deuten darauf hin. Um in Zukunft m\"ogliche \glqq Bugs\grqq{} ausschlie{\ss}en
 zu k\"onnen, ist es sinnvoll, ein paar einfache Tests einzuf\"uhren,
 die die Pipeline erf\"ullen muss.
@@ -139,7 +149,7 @@ der Pipeline korrekt erkannt werden m\"ussen.
 M\"ochte man dann eine Verbesserung in die Pipeline einbringen, so
 muss diese Verbesserung zun\"achst alle Testf\"alle korrekt erf\"ullen.
 Dieses Konzept bezeichnet man in der Software-Entwicklung auch als
-Regressions-Tests.
+Regressions-Tests~\cite{testing}.
 
 \paragraph{Wechsel der Technologie}
 
