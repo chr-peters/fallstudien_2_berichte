@@ -6,6 +6,54 @@ Abbildung~\ref{fig:modellvorhersagen} die vorhergesagten Nummernschilder
 f\"ur 10 Testbilder zu sehen, die alle weder beim Training noch bei der
 Validierung zum early stopping verwendet wurden.
 
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_01.pdf}
+        \subcaption{Vorhersage: BB135B0}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_02.pdf}
+        \subcaption{Vorhersage: S81QAK}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_03.pdf}
+        \subcaption{Vorhersage: RK384AL}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_04.pdf}
+        \subcaption{Vorhersage: SC7}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_05.pdf}
+        \subcaption{Vorhersage: R3RAAUT}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_06.pdf}
+        \subcaption{Vorhersage: -}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_07.pdf}
+        \subcaption{Vorhersage: KUKK}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_08.pdf}
+        \subcaption{Vorhersage: SS7777XJX}
+    \end{subfigure}
+
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_09.pdf}
+        \subcaption{Vorhersage: CSG91}
+    \end{subfigure}
+    \begin{subfigure}{0.31\textwidth}
+        \includegraphics[width=\textwidth]{abbildungen/prediction_10.pdf}
+        \subcaption{Vorhersage: BBBSS223355}
+    \end{subfigure}
+    \caption[Modellvorhersagen]{Modellvorhersagen f\"ur 10 ungesehene Testbilder.
+        Die vorhergesagten Nummernschilder sind durch rote Rechtecke markiert.}
+    \label{fig:modellvorhersagen}
+\end{figure}
+
 Was den ersten Teil der Pipeline angeht, also die Bildsegmentierung
 mithilfe eines CNN, so l\"asst sich erkennen, dass das CNN f\"ur jedes
 der Bilder den relevanten Bereich, der das Nummernschild enth\"alt,
@@ -74,52 +122,23 @@ aufgenommen.
 
 \paragraph{Einfache Testf\"alle als \glqq Sanity Checks\grqq{}}
 
+Anhand der Vorhersagen auf den Beispielbildern f\"allt auf, dass es
+m\"oglicherweise noch unentdeckte Fehler bei der Implementierung der
+Texterkennung geben k\"onnte. Insbesondere das h\"aufige doppelte Erkennen
+von Zeichen einerseits, sowie das h\"aufige Auslassen von Zeichen andererseits
+deuten darauf hin. Um in Zukunft m\"ogliche \glqq Bugs\grqq{} ausschlie{\ss}en
+zu k\"onnen, ist es sinnvoll, ein paar einfache Tests einzuf\"uhren,
+die die Pipeline erf\"ullen muss.
+
+Beispielsweise w\"are denkbar, die Texterkennung mit einzelnen Zeichen zu
+testen, um sicherzustellen, dass diese korrekt erkannt werden.
+Darauf aufbauend k\"onnte man auch ein paar sehr klar erkennbare
+Nummernschilder als Testf\"alle einbringen, die auf jeden Fall von
+der Pipeline korrekt erkannt werden m\"ussen.
+M\"ochte man dann eine Verbesserung in die Pipeline einbringen, so
+muss diese Verbesserung zun\"achst alle Testf\"alle korrekt erf\"ullen.
+Dieses Konzept bezeichnet man in der Software-Entwicklung auch als
+Regressions-Tests.
+
 \paragraph{Wechsel der Technologie}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_01.pdf}
-        \subcaption{Vorhersage: BB135B0}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_02.pdf}
-        \subcaption{Vorhersage: S81QAK}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_03.pdf}
-        \subcaption{Vorhersage: RK384AL}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_04.pdf}
-        \subcaption{Vorhersage: SC7}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_05.pdf}
-        \subcaption{Vorhersage: R3RAAUT}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_06.pdf}
-        \subcaption{Vorhersage: -}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_07.pdf}
-        \subcaption{Vorhersage: KUKK}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_08.pdf}
-        \subcaption{Vorhersage: SS7777XJX}
-    \end{subfigure}
-
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_09.pdf}
-        \subcaption{Vorhersage: CSG91}
-    \end{subfigure}
-    \begin{subfigure}{0.31\textwidth}
-        \includegraphics[width=\textwidth]{abbildungen/prediction_10.pdf}
-        \subcaption{Vorhersage: BBBSS223355}
-    \end{subfigure}
-    \caption[Modellvorhersagen]{Modellvorhersagen f\"ur 10 ungesehene Testbilder.
-        Die vorhergesagten Nummernschilder sind durch rote Rechtecke markiert.}
-    \label{fig:modellvorhersagen}
-\end{figure}
