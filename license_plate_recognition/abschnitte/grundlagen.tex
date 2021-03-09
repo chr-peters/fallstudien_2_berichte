@@ -112,7 +112,7 @@ Die Gesamtanzahl der Schichten eines neuronalen Netzes wird auch
 als die \textbf{Tiefe} des Netzes bezeichnet.
 Wenn in der Praxis also von \textbf{Deep Learning} gesprochen wird,
 geht es lediglich um tiefe neuronale Netze mit vielen Schichten,
-also viele verkettete Funktionen.
+also vielen verketteten Funktionen.
 Wie genau die Schichten eines neuronalen Netzwerkes nun aussehen k\"onnen,
 soll im n\"achsten Abschnitt etwas detaillierter beschrieben werden.
 
@@ -447,14 +447,13 @@ dargestellt.
 \end{figure}
 
 Die Aufgabe von Pooling Schichten innerhalb eines CNN ist es, die
-dimensionalit\"at ihrer Eingabe zu verringern. Pooling Schichten verf\"ugen
+Dimensionalit\"at ihrer Eingabe zu verringern. Pooling Schichten verf\"ugen
 \"uber keine trainierbaren Parameter.
 \"Ahnlich zu Faltungsschichten basieren auch Pooling Schichten auf
 einem Kernel, der \"uber die Eingabe f\"ahrt. Der Unterschied ist aber,
 dass der Kernel keine gewichtete Summe berechnet, sondern lediglich
 das Maximum zur\"uckgibt.\footnote{In diesem Fall spricht man auch von
-    Max-Pooling. Bei einer anderen Variante, dem Average-Pooling, wird die
-    Eingabe des Kernels auf ihren Mittelwert reduziert.}
+    Max-Pooling.}
 Au{\ss}erdem ist es im Falle von Pooling \"ublich, dass der Kernel
 gr\"o{\ss}ere Schritte zur\"ucklegt. Im Beispiel von
 Abbildung~\ref{fig:pooling} ist die Kernel-Gr\"o{\ss}e 2x2 und die
