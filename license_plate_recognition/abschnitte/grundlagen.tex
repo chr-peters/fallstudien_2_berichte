@@ -254,7 +254,10 @@ vorliegenden Problemstellung kurz umrissen werden.
 
 \paragraph{Stochastischer Gradientenabstieg}
 
-M\"ochte man die Funktion $L(\theta)$ durch stochastischen Gradientenabstieg
+Stochastischer Gradientenabstieg ist eine Variante des
+allgemeinen Gradientenabstiegs, der nun zuerst beschrieben wird.
+
+M\"ochte man die Funktion $L(\theta)$ durch Gradientenabstieg
 minimieren, so muss man zun\"achst einen Startwert $\theta^{(0)}$
 ausw\"ahlen, an welchem die Optimierung beginnen soll.
 Hierbei gibt es viele m\"ogliche Vorgehensweisen.
@@ -264,7 +267,7 @@ vorgestellt wurde und auf eine zuf\"allige, aber m\"oglichst gleichm\"a{\ss}ige
 Initialisierung der Parameter abzielt.
 
 Hat man einen Startwert $\theta^{(0)}$ gew\"ahlt, so wird dieser nun
-durch stochastischen Gradientenabstieg schrittweise verbessert.
+durch Gradientenabstieg schrittweise verbessert.
 Dies geschieht dadurch, dass sukkzessive Schritte in die Richtung
 des negativen Gradienten von $L(\theta)$ durchgef\"uhrt werden.
 Im Optimierungsschritt $t$ wird der aktuelle Parametervektor $\theta^{(t)}$
@@ -272,10 +275,13 @@ also wie folgt aktualisiert:
 \begin{equation}
     \theta^{(t+1)} = \theta^{(t)} - \eta \nabla L(\theta^{(t)})
 \end{equation}
-Hierbei gibt $\eta$ eine Schrittweite an, die zuvor vom Anwender
-spezifiziert werden muss.
+Hierbei gibt $\eta$ eine Schrittweite an, auch \textbf{Lernrate} genannt,
+die zuvor vom Anwender spezifiziert werden muss. $\nabla L(\theta^{(t)})$
+ist der Gradient der Verlustfunktion $L$ bez\"uglich der
+trainierbaren Parameter $\theta$, ausgewertet an der Stelle
+$\theta^{(t)}$.
 
-Die Idee dabei ist, dass der negative Gradient immer in die Richtung
+Die Idee bei dieser Vorgehensweise ist, dass der negative Gradient immer in die Richtung
 des steilsten Abstieges einer Funktion zeigt.
 Man erhofft sich durch diese lokale Minimierung der Funktion, dass
 man schlussendlich in einem globalen Minimum auskommt. Dies ist aber nur
@@ -288,6 +294,18 @@ des Verfahrens in ein lokales Minimum hoffen.
 Laut~\cite{local_minima} scheint es aber in der Praxis Anhaltspunkte
 daf\"ur zu geben, dass lokale Minima anders als man denken k\"onnte
 oft kein gro{\ss}es Problem beim Training darstellen.
+
+Der Unterschied zwischen stochastischem Gradientenabstieg und
+allgemeinem Gradientenabstieg ist, dass beim stochastischen
+Gradientenabstieg der Gradient der Verlustfunktion nur
+teilweise berechnet wird. Die bedeutet, dass man immer nur einen
+Teil der Trainingsbeispiele f\"ur einen Gradientenschritt verwendet
+und nicht den ganzen Datensatz. Beim klassischen stochastischen
+Gradientenabstieg wird f\"ur jedes Update lediglich ein einziges
+Trainingsbeispiel verwendet. Es ist aber auch m\"oglich, sogenannte
+\textbf{Batches} von Trainingsbeispielen f\"ur einen
+Gradientenschritt zu verwenden. Die Gr\"o{\ss}e dieser Batches
+l\"asst sich dann passend zum vorliegenden Problem variieren.
 
 \paragraph{Berechnung der Gradienten}
 
