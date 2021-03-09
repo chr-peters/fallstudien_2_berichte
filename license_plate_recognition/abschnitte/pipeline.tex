@@ -8,8 +8,8 @@ dargestellt.
 Die Pipeline ist so aufgebaut, dass auf eine Bildeingabe zun\"achst
 eine Bildsegmentierung angewendet wird, um den Bereich des Bildes,
 welcher das Nummernschild enth\"alt, herauszutrennen.
-F\"ur die Bildsegmentierung wurde ein neuronales Netz trainiert,
-die Einzelheiten des Verfahrens werden in Abschnitt~\ref{sec:bildsegmentierung}
+F\"ur die Bildsegmentierung wurde ein CNN trainiert.
+Die Einzelheiten hierzu werden in Abschnitt~\ref{sec:bildsegmentierung}
 n\"aher beschrieben.
 
 Nach der Bildsegmentierung wird auf den herausgetrennten Bereich eine
@@ -67,7 +67,6 @@ Als Klassifikationsverfahren kommen zu diesem Zweck CNNs zum Einsatz,
 die bereits in Abschnitt~\ref{sec:cnns} beschrieben wurden.
 Auf die genaue Architektur und das Training des Netzes soll nun genauer
 eingegangen werden.
-
 Der Ansatz, CNNs zur Bildsegmentierung zu verwenden, geht
 auf~\cite{image-segmentation} zur\"uck und wurde hier f\"ur die
 vorliegende Problemstellung adaptiert.

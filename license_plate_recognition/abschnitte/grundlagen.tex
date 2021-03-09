@@ -57,7 +57,7 @@ auf neuen und ungesehenen Daten anzustellen.
 \subsection{Aufbau}
 \label{sec:aufbau}
 
-Wie oben in~\ref{sec:neuronale-netze} schon angedeutet, definiert ein neuronales Netz
+Wie oben in Abschnitt~\ref{sec:neuronale-netze} schon angedeutet, definiert ein neuronales Netz
 also eine Abbildung $f$, welche den Zusammenhang zwischen einer Eingabe $x \in \mathbb{R}^p$
 und einer Ausgabe $y \in \mathbb{R}^d$ approximieren soll.
 Eine Hauptcharakteristik von neuronalen Netzen ist es, dass die Funktion $f$
@@ -87,7 +87,7 @@ Abbildung~\ref{fig:einfacher-graph} zu sehen.
         gerichteter azyklischer Graph. Die Knoten $u^{(1)}$ und
         $u^{(2)}$ stellen die Zwischenergebnisse der Funktionen
         $f^{(1)}$ und $f^{(2)}$ dar, der Knoten $y$ repr\"asentiert
-        die Ausgabe des Netzes.}
+        die Ausgabe des durch diesen Graphen gegebenen neuronalen Netzes.}
     \label{fig:einfacher-graph}
 \end{figure}
 
@@ -111,6 +111,9 @@ Netzwerks bezeichnet. Der Wert dieser Schicht ist gleichzeitig
 auch der Ausgabewert des gesamten Netzes f\"ur eine Eingabe $x$.
 Die Gesamtanzahl der Schichten eines neuronalen Netzes wird auch
 als die \textbf{Tiefe} des Netzes bezeichnet.
+Wenn in der Praxis also von \textbf{Deep Learning} gesprochen wird,
+geht es lediglich um tiefe neuronale Netze mit vielen Schichten,
+also viele verkettete Funktionen.
 Wie genau die Schichten eines neuronalen Netzwerkes nun aussehen k\"onnen,
 soll im n\"achsten Abschnitt etwas detaillierter beschrieben werden.
 
@@ -200,8 +203,10 @@ beschr\"ankt ist, kommt diese Funktion h\"aufig in der Ausgabeschicht
 von neuronalen Netzen zum Einsatz. Beispielsweise bietet es sich im
 Szenario einer bin\"aren Klassifikation, also $y \in \{0, 1\}$, h\"aufig
 an, die Sigmoidfunktion in der Ausgabeschicht zu verwenden.
-Das weitere Vorgehen ist dann sehr \"ahnlich zur
-logistischen Regression~\cite{statistical_learning}.
+\"Ahnlich zur logistischen Regression~\cite{statistical_learning}
+wird dann ein Schwellenwert definiert, beispielsweise $0,5$, anhand
+dessen die Ausgabe des Netzes dann auf 1 oder 0 gesetzt wird, je nachdem
+ob der Schwellenwert \"uberschritten wurde.
 
 \subsection{Training}
 \label{sec:training}
@@ -219,13 +224,13 @@ Gehen wir aber nun einmal davon aus, dass wir uns f\"ur eine konkrete
 Architektur entschieden haben (die tats\"achliche Architektur, die in
 diesem Projekt zum Einsatz gekommen ist, wird sp\"ater beschrieben).
 Die Frage ist nun, wie die freien Parameter, also die
-Gewichtsmatrizen $W$ sowie die Bias Vektoren $b$ in jeder Schicht angepasst
+Gewichtsmatrizen $W$, sowie die Bias Vektoren $b$, in jeder Schicht angepasst
 werden k\"onnen, damit das neuronale Netz die Funktion $f^*$ m\"oglichst
 gut approximiert.
 
 Zur Beantwortung dieser Frage ist es hilfreich, sich in Erinnerung
 zu rufen, dass ein neuronales Netz lediglich durch eine Funktion
-$f(x)$ von einer Eingabe $x$ beschrieben werden kann.
+$f(x)$ beschrieben werden kann.
 S\"amtliche Parameter dieser Funktion (also die Gewichtsmatrizen und
 die Bias-Vektoren) lassen sich o.B.d.A. zu einem einzigen
 Parametervektor $\theta$ zusammenfassen, welcher die Funktion $f$
@@ -245,12 +250,25 @@ Verlustfunktion $L(\theta)$ minimiert wird.
 Es liegt also ein nicht-lineares Optimierungsproblem einer geschlossenen
 und differenzierbaren Funktion $L(\theta)$ vor.
 
+Anstelle des mittleren quadratischen Fehlers k\"onnen in der Praxis
+je nach Szenario auch andere Verlustfunktionen eingesetzt werden.
+Liegt beispielsweise ein bin\"ares Klassifikationsproblem vor,
+so wird h\"aufig in Kombination mit einer Sigmoid-Ausgabeschicht
+die logistische Verlustfunktion~\cite{Goodfellow-et-al-2016} verwendet:
+\begin{equation}
+    L_\text{logistisch}(\theta) = -\frac{1}{n}
+    \sum_{i=1}^n y_i \cdot \log (f_\theta(x_i)) + (1 - y_i) \cdot \log (1 - f_\theta(x_i))
+\end{equation}
+Auch hier muss ein passender Parametervektor $\theta$ gefunden werden,
+welcher die
+Verlustfunktion minimiert.
+
 Zur L\"osung eines solchen Problems gibt es viele verschiedene Verfahren.
 In der Praxis kommen meist Varianten des stochastischen Gradientenabstiegs
 zum Einsatz. Dieses allgemeine Optimierungsverfahren ist in~\cite{understanding_ml}
 im Bezug auf allgemeine Machine Learning Probleme ausf\"uhrlich beschrieben
-und analysiert worden und soll hier nur einmal bez\"uglich der
-vorliegenden Problemstellung kurz umrissen werden.
+und analysiert worden und soll hier nur einmal bez\"uglich des Trainings
+neuronaler Netze kurz umrissen werden.
 
 \paragraph{Stochastischer Gradientenabstieg}
 
@@ -292,13 +310,13 @@ handelt, ist die Konvexit\"at von $L$ f\"ur tiefe neuronale Netze in den
 meisten F\"allen nicht gegeben. Man kann also bestenfalls auf die Konvergenz
 des Verfahrens in ein lokales Minimum hoffen.
 Laut~\cite{local_minima} scheint es aber in der Praxis Anhaltspunkte
-daf\"ur zu geben, dass lokale Minima anders als man denken k\"onnte
+daf\"ur zu geben, dass lokale Minima, anders als man denken k\"onnte,
 oft kein gro{\ss}es Problem beim Training darstellen.
 
 Der Unterschied zwischen stochastischem Gradientenabstieg und
 allgemeinem Gradientenabstieg ist, dass beim stochastischen
 Gradientenabstieg der Gradient der Verlustfunktion nur
-teilweise berechnet wird. Die bedeutet, dass man immer nur einen
+teilweise berechnet wird. Dies bedeutet, dass man immer nur einen
 Teil der Trainingsbeispiele f\"ur einen Gradientenschritt verwendet
 und nicht den ganzen Datensatz. Beim klassischen stochastischen
 Gradientenabstieg wird f\"ur jedes Update lediglich ein einziges
@@ -370,14 +388,16 @@ Abbildung~\ref{fig:faltungsschicht} gegeben.
 Der erste Unterschied zur bereits in~\ref{sec:schichten} beschriebenen
 dense Schicht ist, dass die Eingabe eine zweidimensionale Struktur
 aufweist, wie es beispielsweise bei (schwarz-wei{\ss}en) Bilddaten der Fall ist.
-Zur formalen Beschreibung solcher Daten k\"onnen beispielsweise anstelle
+Zur formalen Beschreibung solcher Daten k\"onnen dann anstelle
 von Vektoren Matrizen zum Einsatz kommen. In Abbildung~\ref{fig:faltungsschicht}
 w\"urde dann jeder Punkt im linken Gitter einem Eintrag aus der Eingabematrix der
-Schicht entsprechen.\footnote{In der Praxis wird dieses Konzept h\"aufig auf
-    mehr als zwei Dimensionen verallgemeinert. Dies ist insbesondere
-    dann n\"otig, wenn man es beispielsweise mit Farbbildern zu tun hat,
-    die f\"ur jeden Pixel drei Farbwerte speichern. In diesem Fall spricht man
-    dann nicht mehr von Matrizen, sondern von \textbf{Tensoren}.}
+Schicht entsprechen.
+
+In der Praxis wird dieses Konzept h\"aufig auf
+mehr als zwei Dimensionen verallgemeinert. Dies ist insbesondere
+dann n\"otig, wenn man es beispielsweise mit Farbbildern zu tun hat,
+die f\"ur jeden Pixel drei Farbwerte speichern. In diesem Fall spricht man
+dann nicht mehr von Matrizen, sondern von \textbf{Tensoren}.
 
 Die Faltungsoperation auf einer solchen Eingabe kann man sich nun so
 vorstellen, dass eine Art Fenster (auch \textbf{Kernel} genannt)

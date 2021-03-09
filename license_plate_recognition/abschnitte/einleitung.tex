@@ -17,16 +17,16 @@ bestimmt, der das Nummernschild enth\"alt, und im zweiten Schritt anhand
 des zuvor ermittelten
 Ausschnitts die Zeichen des Nummernschildes ausliest.
 
-Bei der Bestimmung des relevanten Bildausschnittes, welcher das Nummernschild
-enth\"alt, kommen sogenannte
+Bei der Bestimmung des relevanten Bildausschnittes kommen sogenannte
 Convolutional Neural Networks zum Einsatz, eine spezielle Art von
-Neuronalen Netzen, deren Grundlagen in Abschnitt~\ref{sec:neuronale-netze}
-beschrieben werden. Zum Auslesen der Zeichen werden die
+neuronalen Netzen, deren Grundlagen in Abschnitt~\ref{sec:neuronale-netze}
+beschrieben werden. Zum Auslesen der Zeichen der Nummernschilder werden die
 Programmbibliotheken OpenCV~\cite{opencv_library} und
 Tesseract~\cite{tesseract} verwendet.
 
 Ein \"Uberblick \"uber das vorliegende Datenmaterial, welches
-bei der Erstellung der Pipeline verwendet wurde, wird in
+bei der Erstellung der Pipeline und insbesondere zum Training der
+neuronalen Netze verwendet wurde, wird in
 Abschnitt~\ref{sec:Datenbeschreibung} gegeben.
 Der gesamte Aufbau der Pipeline wird in Abschnitt~\ref{sec:pipeline}
 erl\"autert, im Anschluss werden die Ergebnisse in Abschnitt~\ref{sec:ergebnisse}
