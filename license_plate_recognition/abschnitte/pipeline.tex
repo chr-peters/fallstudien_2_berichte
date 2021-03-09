@@ -89,20 +89,60 @@ in das Netz auf eine Gr\"o{\ss}e von 400x400 skaliert.
 Die komplette Netzarchitektur, die in diesem Projekt zum Einsatz kam,
 ist in Abbildung~\ref{fig:netzarchitektur} schematisch dargestellt.
 Genaue Details zu jeder Schicht, sowie die Anzahl der trainierbaren
-Parameter k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
+Parameter, k\"onnen Tabelle~\ref{tab:netzarchitektur} entnommen werden.
+
+Bei der groben Struktur der Netzarchitektur wurde sich hierbei
+an~\cite{image-segmentation} orientiert. Beispielsweise ist es
+zur Reduktion der trainierbaren Parameter sinnvoll, die Dimension der
+Faltungsschichten zuerst schrittweise durch Pooling-Schichten zu
+verkleinern und erst am
+Ende wieder durch Upsampling-Schichten zu vergr\"o{\ss}ern.
+Wie man in Abbildung~\ref{fig:netzarchitektur} sehen kann, verlaufen
+die Ausgabedimensionen der Schichten also frei gesprochen von
+\glqq breit und flach\grqq{} zu \glqq schmal und tief\grqq{} im Inneren
+des Netzes und dann wieder zu \glqq breit und flach\grqq{} hin zur
+Ausgabe der Vorhersage f\"ur die bin\"are Maske.
+
+W\"ahrend sich diese allgemeine Struktur zwar generell zur Bildsegmentierung
+etabliert hat, so wurde diese spezielle Architektur jedoch erst nach
+vielen Testl\"aufen und Abw\"agungen gefunden. Des Weiteren scheint
+die Gesamtanzahl der trainierbaren Parameter von 191.297 zwar auf den
+ersten Blick sehr gro{\ss} zu sein, allerdings darf man nicht vergessen,
+dass ein einziges Bild schon aus $400 \cdot 400 \cdot 3 = 480.000$
+Farbwerten besteht. Die Anzahl der Parameter dieser Architektur ist also
+wesentlich kleiner, als die Dimension der Modelleingabe.
+Auch wenn die Netzarchitektur also als recht komplex anmutet, so ist sie
+was die Zahl der freien Parameter betrifft, sogar weniger komplex als ein
+lineares Modell.
+
+Abschlie{\ss}end sei noch ein kleines, aber spannendes
+Detail zur Ausgabeschicht erw\"ahnt.
+Die Ausgabeschicht ist eine Faltungsschicht mit einem Kernel der
+Gr\"o{\ss}e 1x1, welche die Sigmoidfunktion zur Bestimmung der
+Netzausgabe verwendet. Sie enth\"alt also 9 trainierbare Parameter
+(8 gehen auf den Kernel zur\"uck und 1 Parameter ist der Bias).
+Sieht man genauer hin, so entspricht dies genau dem Modell
+der logistischen Regression, welches als Features genau die Ausgabe
+der vorherigen Faltungsschicht verwendet.
+Im Grunde ist diese Netzarchitektur also eine logistische Regression, die
+gleichzeitig mit einer eingebauten Feature-Extraktion trainiert wird.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{abbildungen/network_architecture}
     \caption[Netzarchitektur]{Schematische Darstellung der gew\"ahlten Netzarchitektur
-        zur Bildsegmentierung.}
+    zur Bildsegmentierung. Die Eingabe des Netzes ist ein Tensor
+    der Gr\"o{\ss}e 400x400x3, der das Eingabebild repr\"asentiert.
+    Die Ausgabe ist eine Vorhersage der bin\"aren Maske und hat daher die
+    Gr\"o{\ss}e 400x400x1, die Kernel der Faltungsschichten (Conv.) sind
+    in Blau eingezeichnet.}
     \label{fig:netzarchitektur}
 \end{figure}
 
 \begin{table}
     \centering
     \caption{Die eingesetzte Netzarchitektur. Insgesamt enth\"alt sie
-        191297 trainierbare Parameter.}
+        191.297 trainierbare Parameter.}
     \label{tab:netzarchitektur}
     \begin{tabular}{|l|l|l|}
         \hline
@@ -183,8 +223,12 @@ Colab\footnote{\url{https://colab.research.google.com/}} in der Cloud
 durchgef\"uhrt.
 Als Optimierungsalgorithmus kam ADAM~\cite{adam},
 eine Variante des stochastischen Gradientenabstiegs zum Einsatz.
+Die Initialisierung der Parameter wurde mit der schon in
+Abschnitt~\ref{sec:training} kurz beschriebenen Glorot-Initialisierung
+durchgef\"uhrt.
 
-Vor dem Training wurde der Datensatz durch sogenanntes Data Augmentation
+Vor dem Training wurde der Datensatz aufgrund der vergleichsweise
+geringen Anzahl an Trainingsbildern durch sogenanntes Data Augmentation
 vergr\"o{\ss}ert. Hierbei wurden verschiedene Eigenschaften der
 Trainingsbilder zuf\"allig ver\"andert:
 \begin{itemize}
@@ -196,18 +240,16 @@ Trainingsbilder zuf\"allig ver\"andert:
 Durch das wiederholte Anwenden dieser Methoden konnte der urspr\"ungliche
 Trainingsdatensatz von 949 Bildern auf 22776 Bilder vergr\"o{\ss}ert werden.
 
-Als Validierungsdatensatz, der w\"ahrend des Trainings beobachtet wurde,
-um Overfitting zu vermeiden, wurden 20 Bilder per Hand ausgew\"ahlt.
+Als Validierungs-Datensatz, der w\"ahrend des Trainings beobachtet wurde,
+wurden schon vor der Data-Augmentation 20 Bilder per Hand ausgew\"ahlt,
+die m\"oglichst viele der verschiedenen Szenarien abdecken sollten.
 Der Wert der Verlustfunktion w\"ahrend der ersten 15 Epochen des Trainings ist in
 Abbildung~\ref{fig:training-loss} zu sehen.
 Eine Epoche bedeutet, dass jedes Bild im Datensatz einmal f\"ur einen
 Gradientenschritt verwendet wurde.
-
-Als Verlustfunktion wurde hier nicht der in~\ref{sec:training} beschriebene
-mittlere quadratische Verlust verwendet, sondern analog zu~\cite{image-segmentation}
-die logistische Verlustfunktion (welche auch bei der logistischen Regression zum Einsatz kommt).
-Dies hat den Grund, dass diese Verlustfunktion wesentlich besser im
-hier vorliegenden Szenario der bin\"aren Klassifikation geeignet ist.
+Als Verlustfunktion wurde hier analog zu~\cite{image-segmentation} aufgrund
+des Szenarios der bin\"aren Klassifikation f\"ur jeden Pixel
+ebenfalls die logistische Verlustfunktion eingesetzt.
 
 Das Training wurde dann solange durchgef\"uhrt, bis sich der Verlust auf den
 20 Validierungsbildern nicht mehr verbessert hat. Man bezeichnet diese
