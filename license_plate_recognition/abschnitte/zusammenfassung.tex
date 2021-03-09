@@ -1,1 +1,38 @@
 \section{Zusammenfassung}
+\label{sec:zusammenfassung}
+
+In diesem Projekt wurde gezeigt, wie das automatisierte Auslesen
+von Nummernschildern aus Bilddaten mittels einer zweistufigen
+Vorhersagepipeline umgesetzt werden kann.
+
+In der ersten Stufe kam ein CNN zur Extraktion des Nummernschildes durch
+Bildsegmentierung zum Einsatz.
+Dieses neuronale Netz wurde so trainiert, dass es f\"ur jedes
+Eingabebild eine bin\"are Maske vorhersagen sollte, in welcher
+sich das Nummernschild befindet.
+Zu diesem Zweck wurde der Trainings-Datensatz unter
+Einsatz von Data-Augmentation Methoden von 949 auf 22776 Bilder
+vergr\"o{\ss}ert.
+Insgesamt zeigte der Einsatz des CNN zur Bildsegmentierung vielversprechende
+Resultate: Auf einem Testdatensatz von 10 Bildern, die weder zum Training
+noch zum early stopping verwendet wurden, wurde jedes der Nummernschilder
+korrekt vom CNN erkannt. Selbst schwierige Lichtverh\"altnisse schienen
+f\"ur das neuronale Netz kein Problem zu sein.
+
+Die zweite Stufe der Pipeline, also die Zeichenerkennung aus einem
+extrahierten Nummernschild, wurde mithilfe der OCR-Software Tesseract
+unter Einsatz verschiedener Vorverarbeitungsschritte durch OpenCV realisiert.
+Die Ergebnisse dieser Zeichenerkennung waren jedoch noch nicht
+zufriedenstellend und m\"ussen verbessert werden.
+In Abschnitt~\ref{sec:verbesserungen} wurden hierzu drei m\"ogliche
+Ans\"atze diskutiert. Als letzter Ausweg wurde ein Wechsel der
+Technologie hin zu CNNs zur Texterkennung in Betracht gezogen, es sollte
+aber zun\"achst sichergestellt werden, dass die teils sehr
+fehlerbehafteten Vorhersagen der Texterkennung nicht auf eventuelle
+Implementierungsfehler zur\"uckzuf\"uhren sind.
+
+Abschlie{\ss}end kann man sagen, dass zumindest der erste Teil der
+Pipeline erfolgreich umgesetzt wurde, was ein weiterer Beleg f\"ur die
+Dominanz von CNNs im Bereich der Bildsegmentierung ist.
+Die so umgesetzte Bildsegmentierung kann nun als solide Basis f\"ur
+alle weiteren Verbesserungen der Texterkennung dienen.

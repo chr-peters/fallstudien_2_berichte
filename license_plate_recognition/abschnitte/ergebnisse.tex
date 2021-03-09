@@ -85,6 +85,7 @@ Im folgenden sind ein paar Ideen aufgef\"uhrt, wie dieser Teil
 der Pipeline in Zukunft verbessert werden k\"onnte.
 
 \subsection{Ideen zur Verbesserung der Texterkennung}
+\label{sec:verbesserungen}
 
 \paragraph{Framework zur iterativen Verbesserung}
 
@@ -142,3 +143,18 @@ Regressions-Tests.
 
 \paragraph{Wechsel der Technologie}
 
+Ein weitere Punkt, der nicht vergessen werden darf, ist die Wahl der
+Technologie f\"ur die Texterkennung.
+Es w\"are beispielsweise denkbar, anstelle der Kombination von
+Vorverarbeitungsschritten mit OpenCV und der anschlie{\ss}enden
+Erkennung durch Tesseract, ebenfalls CNNs zur Erkennung der
+Zeichen einzusetzen.
+Dieses Vorgehen kam beispielsweise in~\cite{silva2018a} zum Einsatz und
+hat zu sehr guten Ergebnissen gef\"uhrt.
+
+Dennoch ist anhand der Vorhersagen auf den Beispielbildern
+wohl davon auszugehen, dass das volle Potenzial des bisherigen
+Ansatzes noch nicht vollends ausgesch\"opft werden konnte.
+Ein kompletter Technologiewechsel, und damit eine komplette
+Neuimplementierung der Texterkennung, sollte daher eher als eine
+Art letzter Ausweg gesehen werden.
