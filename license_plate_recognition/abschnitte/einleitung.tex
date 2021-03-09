@@ -12,11 +12,13 @@ Lage sein soll, erfolgreich Nummernschilder aus Bilddaten erkennen
 und auszulesen zu k\"onnen.
 
 Zu diesem Zweck wird eine zweistufige Vorhersagepipeline konstruiert,
-die ausgehend von einer Bilddatei im ersten Schritt die Position des
-Nummernschildes bestimmt und im zweiten Schritt anhand der zuvor ermittelten
-Position die Zeichen des Nummernschildes ausliest.
+die ausgehend von einer Bilddatei im ersten Schritt den Bildausschnitt
+bestimmt, der das Nummernschild enth\"alt, und im zweiten Schritt anhand
+des zuvor ermittelten
+Ausschnitts die Zeichen des Nummernschildes ausliest.
 
-Bei der Positionsbestimmung des Nummernschildes kommen sogenannte
+Bei der Bestimmung des relevanten Bildausschnittes, welcher das Nummernschild
+enth\"alt, kommen sogenannte
 Convolutional Neural Networks zum Einsatz, eine spezielle Art von
 Neuronalen Netzen, deren Grundlagen in Abschnitt~\ref{sec:neuronale-netze}
 beschrieben werden. Zum Auslesen der Zeichen werden die
